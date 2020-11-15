@@ -12,6 +12,15 @@ class Vector{
 
 	void reset_xy(const double &_x, const double &_y);
 	void reset_pol(const double &lenth, const double &alpha);
+
+	double getlen() const;
+
+	friend Vector operator+(const Vector& v1, const Vector &v2);
+	friend Vector operator-(const Vector& v1, const Vector &v2);
+	friend Vector operator*(const Vector& v1, const double &v2);
+	friend Vector operator/(const Vector& v1, const double &v2);
+
+	Vector& operator+=(const Vector& v1);
 };
 
 #endif

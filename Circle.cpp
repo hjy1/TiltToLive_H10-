@@ -3,22 +3,31 @@
 #include <algorithm>
 
 Circle::Circle(const double &_x, const double &_y, const double &_r):
-	x(_x), y(_y), r(_r)	{}
+	p(_x,_y), r(_r)	{}
+Circle::Circle(const Vector &_p, const double &_r):
+	p(_p), r(_r)	{}
 
-double& Circle::getx()				{return x;}		
-const double& Circle::getx() const	{return x;}
-double& Circle::gety()				{return y;}
-const double& Circle::gety() const	{return y;}
+Vector& Circle::getp()				{return p;}		
+const Vector& Circle::getp() const	{return p;}
 double& Circle::getr()				{return r;}
 const double& Circle::getr() const	{return r;}
 
-void Circle::reset(double _x, double _y, double _r)		{x = _x, y = _y, r = _r;}
-void Circle::move(double deltax, double deltay)			{x += deltax, y += deltay;}
+void Circle::reset(const double &_x, const double &_y, const double &_r){
+	p.getx() = _x, p.gety() = _y, r = _r;
+}
+void Circle::reset(const Vector &_p, const double &_r){
+	p = _p, r = _r;
+}
+void Circle::move(const double &deltax, const double &deltay){
+	p.getx() += deltax, p.gety() += deltay;
+}
+void Circle::move(const Vector &deltap){
+	p += deltap;
+}
 
 double get_distance(const Circle& c1, const Circle& c2)
 {
-	double dx = c1.x - c2.x, dy = c1.y - c2.y;
-	return sqrt(dx*dx + dy*dy);
+	return (c1.p - c2.p).getlen();
 }
 
 bool check_overlap(const Circle& c1, const Circle& c2)

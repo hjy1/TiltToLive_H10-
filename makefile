@@ -1,5 +1,8 @@
 CXX = g++ -std=c++11 -pedantic -Wall -Wextra -g
 
+Redpoint.o: Redpoint.cpp Object.h Constants.h
+	$(CXX) -c $< -o $@
+
 Object.o: Object.cpp Object.h Constants.h
 	$(CXX) -c $< -o $@
 

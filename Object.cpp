@@ -9,9 +9,15 @@ const Circle& Object::getc() const	{return c;}
 Vector& Object::getv()				{return v;}	
 const Vector& Object::getv() const	{return v;}
 
+const Vector& Object::getp() const	{return c.getp();}
+
 void Object::reset_v()	{}
 
 void Object::move_one_tik(){
 	reset_v();
 	c.move(v.getx() * ONE_TIK_TIME, v.gety() * ONE_TIK_TIME);
 }
+
+double get_distance(const Object &o1, const Object &o2)	{	return get_distance(o1.c, o2.c); }
+
+bool check_overlap(const Object &o1, const Object &o2)	{	return check_overlap(o1.c, o2.c);}
