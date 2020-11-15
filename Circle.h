@@ -5,7 +5,8 @@ class Circle{
 	double x,y,r;
 
 	public:
-	Circle(const double &_x = 0, const double &_y = 0, const double &_r = 0);
+	Circle(const double &_x, const double &_y, const double &_r);
+	Circle(): Circle(0,0,0)	{}
 
 	double& getx();		const double& getx() const;
 	double& gety();		const double& gety() const;
