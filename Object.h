@@ -15,6 +15,7 @@ class Object{
 	Circle& getc();		const Circle& getc() const;
 	Vector& getv();		const Vector& getv() const;
 						const Vector& getp() const;
+						const double& getr() const;
 
 	virtual void reset_v();
 	void move_one_tik();

@@ -10,6 +10,7 @@ Vector& Object::getv()				{return v;}
 const Vector& Object::getv() const	{return v;}
 
 const Vector& Object::getp() const	{return c.getp();}
+const double& Object::getr() const	{return c.getr();}
 
 void Object::reset_v()	{}
 

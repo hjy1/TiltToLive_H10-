@@ -1,5 +1,8 @@
 CXX = g++ -std=c++11 -pedantic -Wall -Wextra -g
 
+GameEngine.o: GameEngine.cpp GameEngine.h Redpoint.h Arrow.h
+	$(CXX) -c $< -o $@
+
 Redpoint.o: Redpoint.cpp Object.h Constants.h
 	$(CXX) -c $< -o $@
 
