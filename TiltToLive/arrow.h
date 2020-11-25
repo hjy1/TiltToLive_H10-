@@ -3,6 +3,9 @@
 
 #include "Object.h"
 
-class Arrow: public Object	{};
+class Arrow: public Object	{
+    Arrow();
+
+};
 
 #endif

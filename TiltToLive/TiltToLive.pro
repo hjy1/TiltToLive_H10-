@@ -31,7 +31,8 @@ SOURCES += \
     circle.cpp \
     object.cpp \
     redpoint.cpp \
-    gameengine.cpp
+    gameengine.cpp \
+    arrow.cpp
 
 HEADERS += \
         mainwindow.h \

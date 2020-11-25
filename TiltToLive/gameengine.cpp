@@ -1,5 +1,8 @@
 #include "GameEngine.h"
 #include <list>
+#include <vector>
+
+using std::vector;
 
 GameEngine::~GameEngine(){
 	redpoints.clear();
@@ -8,23 +11,19 @@ GameEngine::~GameEngine(){
 class ufds //union-find disjoint sets
 {
 	public:
-		int *par;
-		Redpoint** tar;
-		int capacity;
-		ufds(): par(new int(0)),tar(new Redpoint*(nullptr)),capacity(1)	{}
-		~ufds()	{delete[] par; delete[] tar;}
+        vector<int> par;
+        unsigned int capacity;
+        ufds(): capacity(1)	{par.resize(1);}
+        ~ufds()	{}
 
-		void resize(const int& size){
+        void resize(const unsigned int& size){
 			bool flag = 0;
-			while(size > capacity)	capacity <<= 1, flag = 1;
-			if(flag)	
-			{
-				delete[] par; par = new int[capacity];
-				delete[] tar; tar = new Redpoint*[capacity];
-			}
+            while(size > capacity)	{capacity <<= 1; flag = 1;}
+            if(flag)
+                par.resize(capacity);
 		}
-		int getpar(const int& x){	return par[x] == x ? x : par[x] = getpar(par[x]);}
-		void connect(const int &x,const int &y)
+        unsigned int getpar(const unsigned int& x){	return par[x] == x ? x : par[x] = getpar(par[x]);}
+        void connect(const unsigned int &x,const unsigned int &y)
 		{
 			getpar(x);
 			par[par[x]] = getpar(y);
@@ -39,13 +38,15 @@ void arrow_turn()			{}
 void GameEngine::redpoint_turn() //need more test
 {
 	list<Redpoint>::iterator iter, iter2;
+    static vector<Redpoint*> tar;
 	int n = redpoints.size(), i,j;
 	par.resize(n);
+    tar.resize(n);
 	for(iter = redpoints.begin(), i = 0; iter != redpoints.end(); iter ++, i++)
 	{
 		iter->move_one_tik();
 		par.par[i] = i;
-		par.tar[i] = &*iter;
+        tar[i] = &*iter;
 	}
 	for(iter = redpoints.begin(), i = 0; i < n; iter++, i++)
 		for(iter2 = iter, j = i; j < n; iter2 ++, j++)
@@ -57,7 +58,7 @@ void GameEngine::redpoint_turn() //need more test
 	for(iter = redpoints.begin(), i = 0; i < n; iter++, i++)
 		if(par.getpar(i) != i)
 		{
-			par.tar[par.getpar(i)]->merge(*iter);
+            tar[par.getpar(i)]->merge(*iter);
 			redpoints.erase(iter);
 		}
 }

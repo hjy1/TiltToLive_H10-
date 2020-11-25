@@ -11,6 +11,7 @@ class Object{
 
 	public:
 	Object(const double &x, const double &y, const double &r);
+    virtual ~Object();
 
 	Circle& getc();		const Circle& getc() const;
 	Vector& getv();		const Vector& getv() const;
