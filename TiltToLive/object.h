@@ -1,16 +1,19 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "Circle.h"
-#include "Vector.h"
+#include "circle.h"
+#include "vector.h"
+#include <QGraphicsItem>
+#include <QGraphicsScene>
 
 class Object{
-	protected:
+protected:
 	Circle c;
-	Vector v;
+    Vector v;
+    virtual void reset_v();
 
-	public:
-	Object(const double &x, const double &y, const double &r);
+public:
+    Object(const double &x, const double &y, const double &r);
     virtual ~Object();
 
 	Circle& getc();		const Circle& getc() const;
@@ -18,10 +21,14 @@ class Object{
 						const Vector& getp() const;
 						const double& getr() const;
 
-	virtual void reset_v();
-	void move_one_tik();
+
+    virtual void move_one_tick();
+    virtual void add_scene(QGraphicsScene *scene) = 0;
+
+
 	friend double get_distance(const Object &o1, const Object &o2);
 	friend bool check_overlap(const Object &o1,const Object &o2);
+
 };
 
 #endif

@@ -5,7 +5,7 @@ class Vector{
 	double x,y;
 	public:
 	Vector(const double _x, const double _y);
-	Vector(): Vector(0,0)	{}
+    Vector(): Vector(0.0,0.0)	{}
 	
 	double& getx();		const double& getx() const;
 	double& gety();		const double& gety() const;
@@ -21,6 +21,11 @@ class Vector{
 	friend Vector operator/(const Vector& v1, const double &v2);
 
 	Vector& operator+=(const Vector& v1);
+
+    bool is_zero() const;
+
+    //reset the lenth of vector and without changing its direction
+    Vector set_lenth(const double &len);
 };
 
 #endif

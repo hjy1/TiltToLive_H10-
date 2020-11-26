@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow">
+ <class>TiltToLive</class>
+ <widget class="QMainWindow" name="TiltToLive">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -40,12 +40,6 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuRestart">
-    <property name="title">
-     <string>Restart</string>
-    </property>
-   </widget>
-   <addaction name="menuRestart"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">

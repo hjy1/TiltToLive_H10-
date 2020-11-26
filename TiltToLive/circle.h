@@ -1,7 +1,7 @@
 #ifndef CIRCLE_H
 #define CIRCLE_H
 
-#include "Vector.h"
+#include "vector.h"
 
 class Circle{
 	Vector p;

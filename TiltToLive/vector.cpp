@@ -44,3 +44,12 @@ Vector operator/(const Vector &v1, const double &v2){
 Vector& Vector::operator+=(const Vector &v1){
     x += v1.x; y += v1.y;	return *this;
 }
+
+bool Vector::is_zero() const{
+    return getlen() < EPSILON;
+}
+
+Vector Vector::set_lenth(const double &len){
+    *this = *this / getlen() * len;
+    return *this;
+}

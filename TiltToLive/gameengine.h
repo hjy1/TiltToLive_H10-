@@ -3,29 +3,32 @@
 
 #include <list>
 #include <algorithm>
-#include "Arrow.h"
-#include "Redpoint.h"
+#include "arrow.h"
+#include "redpoint.h"
+#include <QGraphicsScene>
 
 using std::list;
 
 class GameEngine{
 	private:
 
-	void tik_start();
 	void effects_turn();
 	void arrow_turn();
-	void redpoint_turn();
+    void merge_redpoints();
 	void tools_turn();
-	void tik_end();
-	void show_game_map();
-	void do_delay();
+    void reset_positions();
 
 	public:
+    //scene should be first created!!! Or it will cause crash when deleting
+    QGraphicsScene scene;
 	Arrow arrow;
-	list<Redpoint> redpoints;
+    list<Redpoint> redpoints;
 
+    void init();
+
+    GameEngine();
 	~GameEngine();
-	void run_game();
+    void move_objects();
 };
 
 #endif

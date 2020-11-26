@@ -5,10 +5,11 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QTimer>
-#include "Gameengine.h"
+#include "gameengine.h"
+#include "clickableview.h"
 
 namespace Ui {
-class MainWindow;
+class TiltToLive;
 }
 
 class MainWindow : public QMainWindow, public GameEngine
@@ -20,12 +21,14 @@ public:
     ~MainWindow();
 
 private:
-    Ui::MainWindow *ui;
-    QGraphicsScene scene;
+    Ui::TiltToLive *ui;
     QTimer *update_time;
+    QAction *act;
 
 private slots:
-    void update_game();
+    void refresh_game_map();
+    void map_clicked(const double &x, const double &y);
+    void end_game();
 };
 
 #endif // MAINWINDOW_H
