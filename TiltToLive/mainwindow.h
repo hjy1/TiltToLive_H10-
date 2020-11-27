@@ -21,6 +21,7 @@ public:
     ~MainWindow();
 
 private:
+
     Ui::TiltToLive *ui;
     QTimer *update_time;
     QAction *res, *pau;
