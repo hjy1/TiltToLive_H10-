@@ -23,12 +23,13 @@ public:
 private:
     Ui::TiltToLive *ui;
     QTimer *update_time;
-    QAction *act;
+    QAction *res, *pau;
 
 private slots:
     void refresh_game_map();
     void map_clicked(const double &x, const double &y);
-    void end_game();
+    void game_pause();
+    void game_resume();
 };
 
 #endif // MAINWINDOW_H

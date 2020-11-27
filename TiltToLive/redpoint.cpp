@@ -3,8 +3,10 @@
 
 #include <cmath>
 
-Redpoint::Redpoint(const double &x, const double &y, const Object* const &target):
-    Object(x,y,INITIAL_REDPOINT_SIZE), target(target), item(nullptr)	{}
+Redpoint::Redpoint(const double &x, const double &y,QGraphicsScene* scene, const Object* const &target):
+    Object(x,y,INITIAL_REDPOINT_SIZE), target(target), item(nullptr)	{
+    if(scene != nullptr)    add_scene(scene);
+}
 Redpoint::~Redpoint(){
     if(item != nullptr){
         QGraphicsScene *scene = item->scene();
@@ -21,6 +23,9 @@ void Redpoint::reset_v()
 		Vector deltap = target->getp() - this->getp();
 		v = deltap / deltap.getlen() * v.getlen();
 	}
+    else {
+        v.reset_xy(0,0);
+    }
 }
 
 void Redpoint::merge(const Redpoint &p){
@@ -32,6 +37,7 @@ void Redpoint::add_scene(QGraphicsScene *scene){
     item = new QGraphicsEllipseItem;
     scene->addItem(item);
     item->setRect(getp().getx(), getp().gety(), INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE);
+    item->setBrush(QBrush(QColor(0, 160, 230)));
     item->setVisible(true);
 }
 

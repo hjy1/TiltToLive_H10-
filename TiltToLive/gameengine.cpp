@@ -2,13 +2,18 @@
 #include "constants.h"
 #include <list>
 #include <vector>
+#include <QDebug>
+#include <QString>
 
 using std::vector;
 
 /*overall workflow
 --------------------------------------------------------------------------------*/
 void GameEngine::init(){
-    arrow.add_scene(&scene);
+    redpoints.push_back(Redpoint(0, 0, &scene));
+    redpoints.push_back(Redpoint(MAP_SIZE_W, MAP_SIZE_L, &scene));
+    redpoints.push_back(Redpoint(MAP_SIZE_W, 0, &scene));
+    redpoints.push_back(Redpoint(0, MAP_SIZE_L, &scene));
 }
 
 /*overall workflow
@@ -24,7 +29,7 @@ void GameEngine::move_objects()
 
 /*constructor and destructor
 --------------------------------------------------------------------------------*/
-GameEngine::GameEngine():arrow(MAP_SIZE_W/2, MAP_SIZE_L/2) {}
+GameEngine::GameEngine():arrow(MAP_SIZE_W/2, MAP_SIZE_L/2, &scene) {}
 
 GameEngine::~GameEngine(){
 	redpoints.clear();
@@ -92,8 +97,10 @@ void GameEngine::merge_redpoints() //need more test
 void GameEngine::reset_positions()
 {
     arrow.move_one_tick();
-    for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end(); it++)
+    for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end(); it++){
+        qDebug() << "move redpoint " << NUM((*it).getp().getx()) << NUM((*it).getp().gety());
         (*it).move_one_tick();
+    }
 }
 
 

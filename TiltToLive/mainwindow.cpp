@@ -21,19 +21,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->show();
 
     init();
-    act = ui->menuBar->addAction("Close");
-    connect(act, SIGNAL(triggered()), this, SLOT(end_game()));
+    pau = ui->menuBar->addAction("Pause");
+    pau->setVisible(true);
+    res = ui->menuBar->addAction("Resume");
+    res->setVisible(false);
+    connect(pau, SIGNAL(triggered()), this, SLOT(game_pause()));
+    connect(res, SIGNAL(triggered()), this, SLOT(game_resume()));
 
     update_time = new QTimer;
     connect(update_time, SIGNAL(timeout()), this, SLOT(refresh_game_map()));
     update_time->start(ONE_TIK_TIME);
     connect(ui->graphicsView, SIGNAL(ClickableView::mouseClicked()), this, SLOT(map_clicked()));
     //connect(ui->menuClose, SIGNAL(about_to_show()), QApplication, SLOT(close()));
+    game_pause();
 }
 
 MainWindow::~MainWindow()
 {
-    delete act;
+    delete pau;
+    delete res;
     delete update_time;
     delete ui;
 }
@@ -49,7 +55,14 @@ void MainWindow::map_clicked(const double &x, const double &y){
     arrow.set_target(x,y);
 }
 
-void MainWindow::end_game(){
+void MainWindow::game_pause(){
     update_time->stop();
-    QApplication::quit();
+    pau->setVisible(false);
+    res->setVisible(true);
+}
+
+void MainWindow::game_resume(){
+    update_time->start(ONE_TIK_TIME);
+    pau->setVisible(true);
+    res->setVisible(false);
 }
