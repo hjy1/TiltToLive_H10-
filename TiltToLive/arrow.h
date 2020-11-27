@@ -11,10 +11,12 @@ private:
     void reset_v();
 public:
     Arrow(const double &x, const double &y, QGraphicsScene* scene = nullptr);
+    Arrow(const Arrow &arrow);
     ~Arrow();
 
     void set_target(const double &x, const double &y);
     void add_scene(QGraphicsScene* scene);
+    void set_item_position();
     void move_one_tick();
 };
 

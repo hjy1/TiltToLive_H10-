@@ -12,6 +12,13 @@ Arrow::Arrow(const double &x, const double &y, QGraphicsScene* scene):
     if(scene != nullptr)   add_scene(scene);
 }
 
+Arrow::Arrow(const Arrow &arrow):
+    Object(arrow), item(nullptr)
+{
+    if(arrow.item != nullptr)
+        add_scene(arrow.item->scene());
+}
+
 Arrow::~Arrow(){
     if(item != nullptr){
         QGraphicsScene *scene = item->scene();
@@ -34,13 +41,18 @@ void Arrow::set_target(const double &x, const double &y){
 void Arrow::add_scene(QGraphicsScene *scene){
     item = new QGraphicsEllipseItem();
     scene->addItem(item);
-    item->setRect(getp().getx(), getp().gety(), ARROW_SIZE, ARROW_SIZE);
+    item->setRect(0, 0, ARROW_SIZE * 2, ARROW_SIZE * 2);
     item->setBrush(QBrush(QColor(0, 160, 230)));
     item->setVisible(true);
+    set_item_position();
+}
+
+void Arrow::set_item_position(){
+    const double &x = getp().getx(), &y = getp().gety(), &r = getr();
+    item->setPos(y - r, x - r);
 }
 
 void Arrow::move_one_tick(){
     Object::move_one_tick();
-    item->setPos(getp().getx(), getp().gety());
-    qDebug() << QString::number(getp().getx()) << QString::number(getp().gety());
+    set_item_position();
 }
