@@ -2,21 +2,22 @@
 #define CONSTANTS_H
 
 //constants
-#define MAP_SIZE_L                  720//360
-#define MAP_SIZE_W                  1280//640
+extern const double MAP_SIZE_L;
+extern const double MAP_SIZE_W;
 
-#define ONE_TIK_TIME                30      /* ms */
+extern const double ONE_TIK_TIME;
 
-#define INITIAL_REDPOINT_SIZE       5
-#define REDPOINT_ACCELERATION       10
-#define REDPOINT_DECCELERATION  	100
-#define REDPOINT_SPEED_MAX          50
-#define REDPOINT_CREATION_CHANCE    0.1    /* for each tick game engine has a chance of REDPOINT_CREATION_CHANCE to create a redpoint*/
-#define REDPOINT_MAX_NUMBER         20
+extern const double INITIAL_REDPOINT_SIZE;
+extern const double REDPOINT_ACCELERATION;
+extern const double REDPOINT_DECCELERATION;
+extern const double REDPOINT_SPEED_MAX;
+extern const double REDPOINT_CREATION_CHANCE;
+extern const double REDPOINT_MAX_NUMBER;
 
-#define ARROW_SIZE                  10
-#define ARROW_SPEED                 100
+extern const double ARROW_SIZE;
+extern const double ARROW_SPEED;
 
 //code
 #define NUM(x)  QString::number(x)
+
 #endif

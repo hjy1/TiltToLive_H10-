@@ -33,7 +33,8 @@ SOURCES += \
     redpoint.cpp \
     gameengine.cpp \
     arrow.cpp \
-    clickableview.cpp
+    clickableview.cpp \
+    constants.cpp
 
 HEADERS += \
         mainwindow.h \
