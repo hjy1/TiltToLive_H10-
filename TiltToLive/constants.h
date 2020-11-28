@@ -2,8 +2,8 @@
 #define CONSTANTS_H
 
 //constants
-#define MAP_SIZE_L                  360
-#define MAP_SIZE_W                  640
+#define MAP_SIZE_L                  720//360
+#define MAP_SIZE_W                  1280//640
 
 #define ONE_TIK_TIME                30      /* ms */
 

@@ -18,7 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Scene
      * ***************** */
     ui->setupUi(this);
-    ui->graphicsView->setGeometry(9,9,MAP_SIZE_L+10, MAP_SIZE_W+10);
+    this->resize(MAP_SIZE_L+20, MAP_SIZE_W+120);
+    ui->graphicsView->setFixedSize(MAP_SIZE_L+10, MAP_SIZE_W+10);
     ui->graphicsView->setScene(&scene);
     ui->graphicsView->setSceneRect(0,0,MAP_SIZE_L, MAP_SIZE_W);
     ui->graphicsView->show();
