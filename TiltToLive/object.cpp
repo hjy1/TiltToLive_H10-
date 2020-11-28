@@ -1,8 +1,15 @@
-#include "Object.h"
+#include "object.h"
 #include "Constants.h"
+
+inline double get_rand(const double &mn, const double &mx){
+    return mn + qrand() * 1.0 / RAND_MAX * (mx - mn);
+}
 
 Object::Object(const double &x, const double &y, const double &r):
     c(x,y,r), v(0,0)    {}
+Object::Object(const double &r):
+    c(get_rand(r, MAP_SIZE_W - r), get_rand(r, MAP_SIZE_L - r), r), v(0, 0) {}
+
 Object::~Object()   {}
 
 Circle& Object::getc()				{return c;}		

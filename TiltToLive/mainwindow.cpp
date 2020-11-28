@@ -10,6 +10,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include <QTime>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -46,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Game Prepare
      * ***************** */
     init();
+    qsrand(time(nullptr));
     game_pause();
 }
 

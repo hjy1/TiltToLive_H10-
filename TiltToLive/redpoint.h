@@ -11,6 +11,12 @@ private:
 public:
     Redpoint(const double &x, const double &y, QGraphicsScene* scene = nullptr, const Object* const &target = nullptr);
     Redpoint(const Redpoint &rdpt);
+
+    /* Create a redpoint on random position in game map
+     * will call Object(const double &r);
+     * ********************************************** */
+    Redpoint(QGraphicsScene* scene = nullptr, const Object* const &target = nullptr);
+
     ~Redpoint();
 
     void reset_v();

@@ -24,6 +24,7 @@ void GameEngine::move_objects()
     //effects_turn();
     arrow_turn();
     merge_redpoints();
+    create_redpoints();
     //tools_turn();
     reset_positions();
 }
@@ -88,6 +89,16 @@ void GameEngine::merge_redpoints() //need more test
             (tar[par.getpar(i)])->merge(*iter);
 			redpoints.erase(iter);
 		}
+}
+
+/* create_redpoints: create a redpoint in gamemap
+ * will only create a redpoint when total number of points is less than REDPOINTS_MAX_NUMBER
+ * -----------------------------------------------------------------------------*/
+void GameEngine::create_redpoints()
+{
+    if(redpoints.size() >= REDPOINT_MAX_NUMBER) return ;
+    bool flag = (qrand() * 1.0 / RAND_MAX < REDPOINT_CREATION_CHANCE);
+    if(flag)    redpoints.push_back(Redpoint(&scene, &arrow));
 }
 
 /*reset_positions: let all types of objects move one tik

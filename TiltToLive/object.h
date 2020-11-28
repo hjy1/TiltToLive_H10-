@@ -14,6 +14,12 @@ protected:
 
 public:
     Object(const double &x, const double &y, const double &r);
+
+    /* create a object with a random position in gamemap:
+     * r < x < MAP_SIZE_W - r, r < y < MAP_SIZE_L - r
+     * **************************** */
+    Object(const double &r);
+
     virtual ~Object();
 
 	Circle& getc();		const Circle& getc() const;

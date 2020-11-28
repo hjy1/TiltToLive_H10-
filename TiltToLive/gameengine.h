@@ -15,6 +15,7 @@ class GameEngine{
 	void effects_turn();
 	void arrow_turn();
     void merge_redpoints();
+    void create_redpoints();
 	void tools_turn();
     void reset_positions();
 
