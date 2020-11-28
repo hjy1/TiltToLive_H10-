@@ -2,10 +2,11 @@
 
 #include<cmath>
 #include<algorithm>
+#include<constants.h>
 
 using std::abs;
 
-const double EPSILON = 0.0000001;
+
 inline bool is_zero(const double& v)	{return abs(v) < EPSILON;}
 
 Vector::Vector(const double _x, const double _y):

@@ -4,6 +4,7 @@
 #include <vector>
 #include <QDebug>
 #include <QString>
+#include <queue>
 
 using std::vector;
 
@@ -97,9 +98,32 @@ void GameEngine::merge_redpoints() //need more test
  * -----------------------------------------------------------------------------*/
 void GameEngine::create_redpoints()
 {
-    if(redpoints.size() >= REDPOINT_MAX_NUMBER) return ;
-    bool flag = (qrand() * 1.0 / RAND_MAX < REDPOINT_CREATION_CHANCE);
-    if(flag)    redpoints.push_back(Redpoint(&scene, &arrow));
+    using namespace std;
+    static const int num_tick = round(REDPOINT_WAIT_TIME / ONE_TIK_TIME);
+    static const double dr = (256.0 - REDPOINT_COLOR.red()) / num_tick;
+    static const double dg = (256.0 - REDPOINT_COLOR.green()) / num_tick;
+    static const double db = (256.0 - REDPOINT_COLOR.blue()) / num_tick;
+
+
+    if(redpoints.size() + waitlist.size() < REDPOINT_MAX_NUMBER) {
+        bool flag = (qrand() * 1.0 / RAND_MAX < REDPOINT_CREATION_CHANCE);
+        if(flag)
+        {
+            Redpoint tmp(&scene, &arrow);
+            tmp.set_Zvalue(0);
+            waitlist.push_back(pRi(tmp, 1));
+        }
+    }
+    list<pRi>::iterator it;
+    for(it = waitlist.begin();it != waitlist.end(); it++)
+    {
+        (*it).first.set_color(256 - dr * (*it).second, 256 - dg * (*it).second, 256 - db * (*it).second);
+        (*it).second ++;
+    }
+    while(!waitlist.empty() && waitlist.begin()->second > num_tick){
+        redpoints.push_back(waitlist.begin()->first);
+        waitlist.pop_front();
+    }
 }
 
 /*reset_positions: let all types of objects move one tik

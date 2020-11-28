@@ -24,6 +24,8 @@ public:
     QGraphicsScene scene;
 	Arrow arrow;
     list<Redpoint> redpoints;
+    typedef std::pair<Redpoint, int> pRi;
+    list<pRi> waitlist;
     bool game_is_end;
 
     void init();

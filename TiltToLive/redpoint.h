@@ -2,11 +2,13 @@
 #define REDPOINT_H
 
 #include "object.h"
+#include "constants.h"
 
 class Redpoint: public Object{
 private:
 	const Object* const target;
     QGraphicsEllipseItem* item;
+    int num;
 
     void set_item_position();
 
@@ -26,6 +28,8 @@ public:
     void move_one_tick();
     bool target_reached() const;
     void merge(const Redpoint& rp2);
+    void set_color(const int &red, const int &green, const int &blue);
+    void set_Zvalue(const int &z);
 };
 
 #endif

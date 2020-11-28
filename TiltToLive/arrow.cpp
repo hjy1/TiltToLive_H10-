@@ -7,7 +7,7 @@
 #include <QString>
 
 Arrow::Arrow(const double &x, const double &y, QGraphicsScene* scene):
-    Object(x, y, ARROW_SIZE), target(0,0), item(nullptr)
+    Object(x, y, ARROW_SIZE), target(x,y), item(nullptr)
 {
     if(scene != nullptr)   add_scene(scene);
 }
@@ -42,9 +42,10 @@ void Arrow::add_scene(QGraphicsScene *scene){
     item = new QGraphicsEllipseItem();
     scene->addItem(item);
     item->setRect(0, 0, ARROW_SIZE * 2, ARROW_SIZE * 2);
-    item->setBrush(QBrush(QColor(0, 160, 230)));
+    item->setBrush(QBrush(ARROW_COLOR));
     item->setVisible(true);
     set_item_position();
+    item->setZValue(1000000);
 }
 
 void Arrow::set_item_position(){
