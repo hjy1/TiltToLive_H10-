@@ -25,6 +25,7 @@ private:
     Ui::TiltToLive *ui;
     QTimer *update_time;
     QAction *res, *pau;
+    void game_end();
 
 private slots:
     void refresh_game_map();

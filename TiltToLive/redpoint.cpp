@@ -32,19 +32,18 @@ Redpoint::~Redpoint(){
 void Redpoint::reset_v()
 {
 	if(target != nullptr)
-	{
-        if(check_overlap(*this, *target))
-        {
-            //qDebug() << "OVERLAP!";
-            v.reset_xy(0,0);
-            return ;
-        }
-		Vector deltap = target->getp() - this->getp();
-        v = deltap.set_lenth(REDPOINT_SPEED_MAX);
+    {
+        Vector deltap = target->getp() - this->getp();
+        if(deltap.is_zero())    v.reset_xy(0,0);
+        else v = deltap.set_lenth(REDPOINT_SPEED_MAX);
 	}
     else {
         v.reset_xy(0,0);
     }
+}
+
+bool Redpoint::target_reached() const{
+    return check_overlap(*this, *target);
 }
 
 void Redpoint::merge(const Redpoint &p){

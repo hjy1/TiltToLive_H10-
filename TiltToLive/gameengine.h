@@ -10,7 +10,7 @@
 using std::list;
 
 class GameEngine{
-	private:
+private:
 
 	void effects_turn();
 	void arrow_turn();
@@ -19,11 +19,12 @@ class GameEngine{
 	void tools_turn();
     void reset_positions();
 
-	public:
+public:
     //scene should be first created!!! Or it will cause crash when deleting
     QGraphicsScene scene;
 	Arrow arrow;
     list<Redpoint> redpoints;
+    bool game_is_end;
 
     void init();
 

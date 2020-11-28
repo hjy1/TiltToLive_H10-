@@ -10,6 +10,7 @@ using std::vector;
 /*init
 --------------------------------------------------------------------------------*/
 void GameEngine::init(){
+    game_is_end = false;
     arrow.add_scene(&scene);
     redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
     redpoints.push_back(Redpoint(MAP_SIZE_W - INITIAL_REDPOINT_SIZE, MAP_SIZE_L - INITIAL_REDPOINT_SIZE, &scene, &arrow));
@@ -111,6 +112,8 @@ void GameEngine::reset_positions()
     arrow.move_one_tick();
     for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end(); it++){
         (*it).move_one_tick();
+        if((*it).target_reached())
+            game_is_end = true;
     }
 }
 

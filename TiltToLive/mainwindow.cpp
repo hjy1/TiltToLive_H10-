@@ -5,12 +5,11 @@
 #include <QString>
 #include "constants.h"
 #include <QApplication>
-
-
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
 #include <QTime>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -63,6 +62,7 @@ void MainWindow::refresh_game_map(){
     static int count = 0;
     //qDebug() << "gamemap refreshed" <<QString::number(count++);
     move_objects();
+    if(game_is_end) game_end();
 }
 
 void MainWindow::map_clicked(const double &x, const double &y){
@@ -80,4 +80,9 @@ void MainWindow::game_resume(){
     update_time->start(ONE_TIK_TIME);
     pau->setVisible(true);
     res->setVisible(false);
+}
+
+void MainWindow::game_end(){
+    QMessageBox::information(nullptr, "Game Over!", "Redpoints have caught you!");
+    QApplication::quit();
 }
