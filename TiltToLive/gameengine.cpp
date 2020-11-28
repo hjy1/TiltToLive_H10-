@@ -1,4 +1,4 @@
-#include "GameEngine.h"
+#include "gameengine.h"
 #include "constants.h"
 #include <list>
 #include <vector>
@@ -11,10 +11,10 @@ using std::vector;
 --------------------------------------------------------------------------------*/
 void GameEngine::init(){
     arrow.add_scene(&scene);
-    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene));
-    redpoints.push_back(Redpoint(MAP_SIZE_W - INITIAL_REDPOINT_SIZE, MAP_SIZE_L - INITIAL_REDPOINT_SIZE, &scene));
-    redpoints.push_back(Redpoint(MAP_SIZE_W - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene));
-    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_L - INITIAL_REDPOINT_SIZE, &scene));
+    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
+    redpoints.push_back(Redpoint(MAP_SIZE_W - INITIAL_REDPOINT_SIZE, MAP_SIZE_L - INITIAL_REDPOINT_SIZE, &scene, &arrow));
+    redpoints.push_back(Redpoint(MAP_SIZE_W - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
+    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_L - INITIAL_REDPOINT_SIZE, &scene, &arrow));
 }
 
 /*overall workflow
@@ -23,7 +23,7 @@ void GameEngine::move_objects()
 {
     //effects_turn();
     arrow_turn();
-    //merge_redpoints();
+    merge_redpoints();
     //tools_turn();
     reset_positions();
 }

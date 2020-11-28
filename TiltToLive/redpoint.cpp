@@ -28,9 +28,14 @@ void Redpoint::reset_v()
 {
 	if(target != nullptr)
 	{
-		if(check_overlap(*this, *target))	return ;
+        if(check_overlap(*this, *target))
+        {
+            qDebug() << "OVERLAP!";
+            v.reset_xy(0,0);
+            return ;
+        }
 		Vector deltap = target->getp() - this->getp();
-		v = deltap / deltap.getlen() * v.getlen();
+        v = deltap.set_lenth(REDPOINT_SPEED_MAX);
 	}
     else {
         v.reset_xy(0,0);
@@ -38,13 +43,13 @@ void Redpoint::reset_v()
 }
 
 void Redpoint::merge(const Redpoint &p){
-	c.getr() = sqrt(this->getr() * this->getr() + p.getr() * p.getr());
+    c.getr() = sqrt(this->getr() * this->getr() + p.getr() * p.getr());
 }
 
 void Redpoint::add_scene(QGraphicsScene *scene){
     item = new QGraphicsEllipseItem;
     scene->addItem(item);
-    item->setRect(0, 0, INITIAL_REDPOINT_SIZE * 2, INITIAL_REDPOINT_SIZE * 2);
+    //item->setRect(0, 0, INITIAL_REDPOINT_SIZE * 2, INITIAL_REDPOINT_SIZE * 2);
     item->setBrush(QBrush(QColor(100, 0, 0)));
     item->setVisible(true);
     set_item_position();
@@ -53,6 +58,7 @@ void Redpoint::add_scene(QGraphicsScene *scene){
 void Redpoint::set_item_position(){
     const double &x = getp().getx(), &y = getp().gety(), &r = getr();
     item->setPos(y - r, x - r);
+    item->setRect(0, 0, r*2, r*2);
 }
 
 void Redpoint::move_one_tick(){

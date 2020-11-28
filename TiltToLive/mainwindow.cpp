@@ -41,7 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Mouse
      * ***************** */
     ui->graphicsView->setMouseTracking(true);
-    connect(ui->graphicsView, &ClickableView::mouseClicked, this, &Mainwindow::map_clicked));
+    connect(ui->graphicsView, &ClickableView::mouseClicked, this, &MainWindow::map_clicked);
 
     /* Game Prepare
      * ***************** */
