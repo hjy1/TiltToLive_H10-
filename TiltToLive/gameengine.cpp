@@ -12,11 +12,8 @@ using std::vector;
 --------------------------------------------------------------------------------*/
 void GameEngine::init(){
     game_is_end = false;
+
     arrow.add_scene(&scene);
-    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
-    //redpoints.push_back(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow));
-    //redpoints.push_back(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
-    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow));
 }
 
 /*overall workflow
@@ -99,14 +96,22 @@ void GameEngine::merge_redpoints() //need more test
 void GameEngine::create_redpoints()
 {
     using namespace std;
+    static int Creation_stage = 0;
     static int num_tick = round(REDPOINT_WAIT_TIME / ONE_TIK_TIME);
     if(num_tick == 0)   num_tick = 1;
     static const double dr = (256.0 - REDPOINT_COLOR.red()) / num_tick;
     static const double dg = (256.0 - REDPOINT_COLOR.green()) / num_tick;
     static const double db = (256.0 - REDPOINT_COLOR.blue()) / num_tick;
 
+    if(Creation_stage == 0){
+        waitlist.push_back(pRi(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
+        waitlist.push_back(pRi(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
+        waitlist.push_back(pRi(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
+        waitlist.push_back(pRi(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
+        Creation_stage = 1;
+    }
 
-    if(redpoints.size() + waitlist.size() < REDPOINT_MAX_NUMBER) {
+    if(Creation_stage == 2 && redpoints.size() + waitlist.size() < REDPOINT_MAX_NUMBER) {
         bool flag = (qrand() * 1.0 / RAND_MAX < REDPOINT_CREATION_CHANCE);
         if(flag)
         {
@@ -125,6 +130,8 @@ void GameEngine::create_redpoints()
         redpoints.push_back(waitlist.begin()->first);
         waitlist.pop_front();
     }
+    if(Creation_stage == 1 && waitlist.empty())
+        Creation_stage = 2;
 }
 
 /*reset_positions: let all types of objects move one tik
