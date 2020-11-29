@@ -12,7 +12,7 @@ using std::vector;
 --------------------------------------------------------------------------------*/
 void GameEngine::init(){
     game_is_end = false;
-
+    arrow = Arrow(MAP_SIZE_L/2, MAP_SIZE_W/2);
     arrow.add_scene(&scene);
 }
 
@@ -30,7 +30,7 @@ void GameEngine::move_objects()
 
 /*constructor and destructor
 --------------------------------------------------------------------------------*/
-GameEngine::GameEngine():arrow(MAP_SIZE_L/2, MAP_SIZE_W/2) {}
+GameEngine::GameEngine(): arrow(MAP_SIZE_L/2, MAP_SIZE_W/2){}
 
 GameEngine::~GameEngine(){
     redpoints.clear();

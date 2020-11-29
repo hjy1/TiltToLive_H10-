@@ -99,6 +99,6 @@ void MainWindow::resizeEvent(QResizeEvent *event){
 
 void MainWindow::keyPressEvent(QKeyEvent *ev){
     QWidget::keyPressEvent(ev);
-    if(ev->key() == Qt::Key_Space)
+    if(ev->key() == Qt::Key_Space && !ev->isAutoRepeat())
         gamestage ? game_pause() : game_resume();
 }
