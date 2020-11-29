@@ -39,6 +39,7 @@ public:
     void add_scene(QGraphicsScene* scene);
     void move_one_tick();
     void rotate();
+    bool arrow_reached() const;
 
     void operation();
 
