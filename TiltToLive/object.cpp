@@ -8,7 +8,7 @@ inline double get_rand(const double &mn, const double &mx){
 Object::Object(const double &x, const double &y, const double &r):
     c(x,y,r), v(0,0)    {}
 Object::Object(const double &r):
-    c(get_rand(r, MAP_SIZE_W - r), get_rand(r, MAP_SIZE_L - r), r), v(0, 0) {}
+    c(get_rand(r, MAP_SIZE_L - r), get_rand(r, MAP_SIZE_W - r), r), v(0, 0) {}
 
 Object::~Object()   {}
 

@@ -3,8 +3,8 @@
 //constants
 static const double rate = 2.0;
 
-const double MAP_SIZE_L = rate *            360;
-const double MAP_SIZE_W = rate *            640;
+double MAP_SIZE_L = rate *            360;
+double MAP_SIZE_W = rate *            640;
 
 const double ONE_TIK_TIME =                 30;      /* ms */
 

@@ -87,7 +87,7 @@ void Redpoint::add_scene(QGraphicsScene *scene){
 
 void Redpoint::set_item_position(){
     const double &x = getp().getx(), &y = getp().gety(), &r = getr();
-    item->setPos(y - r, x - r);
+    item->setPos(x - r, y - r);
     item->setRect(0, 0, r*2, r*2);
     item->setZValue(num);
 }

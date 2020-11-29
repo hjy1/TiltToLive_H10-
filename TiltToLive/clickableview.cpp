@@ -23,5 +23,5 @@ void ClickableView::mousePressEvent(QMouseEvent *event) {
     QPointF p = QGraphicsView::mapToScene(event->pos());
     //QPoint p = event->pos();
     qDebug() << QString::number(p.x()) << " " << QString::number(p.y()) << '\n';
-    emit mouseClicked(p.y(), p.x());
+    emit mouseClicked(p.x(), p.y());
 }

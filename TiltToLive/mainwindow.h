@@ -7,6 +7,8 @@
 #include <QTimer>
 #include "gameengine.h"
 #include "clickableview.h"
+#include <QKeyEvent>
+#include <QResizeEvent>
 
 namespace Ui {
 class TiltToLive;
@@ -25,7 +27,10 @@ private:
     Ui::TiltToLive *ui;
     QTimer *update_time;
     QAction *res, *pau;
+    bool gamestage; // 0 : pausing, 1: running
     void game_end();
+    void resizeEvent ( QResizeEvent * event ) override;
+    void keyPressEvent (QKeyEvent* ev) override;
 
 private slots:
     void refresh_game_map();

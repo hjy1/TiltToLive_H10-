@@ -26,8 +26,8 @@
    <widget class="ClickableView" name="graphicsView">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>9</y>
+      <x>0</x>
+      <y>0</y>
       <width>361</width>
       <height>641</height>
      </rect>

@@ -4,8 +4,8 @@
 #include <QColor>
 
 //constants
-extern const double MAP_SIZE_L;
-extern const double MAP_SIZE_W;
+extern double MAP_SIZE_L;
+extern double MAP_SIZE_W;
 
 extern const double ONE_TIK_TIME;
 

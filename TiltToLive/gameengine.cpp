@@ -14,9 +14,9 @@ void GameEngine::init(){
     game_is_end = false;
     arrow.add_scene(&scene);
     redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
-    redpoints.push_back(Redpoint(MAP_SIZE_W - INITIAL_REDPOINT_SIZE, MAP_SIZE_L - INITIAL_REDPOINT_SIZE, &scene, &arrow));
-    redpoints.push_back(Redpoint(MAP_SIZE_W - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
-    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_L - INITIAL_REDPOINT_SIZE, &scene, &arrow));
+    //redpoints.push_back(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow));
+    //redpoints.push_back(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow));
+    redpoints.push_back(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow));
 }
 
 /*overall workflow
@@ -33,7 +33,7 @@ void GameEngine::move_objects()
 
 /*constructor and destructor
 --------------------------------------------------------------------------------*/
-GameEngine::GameEngine():arrow(MAP_SIZE_W/2, MAP_SIZE_L/2) {}
+GameEngine::GameEngine():arrow(MAP_SIZE_L/2, MAP_SIZE_W/2) {}
 
 GameEngine::~GameEngine(){
     redpoints.clear();

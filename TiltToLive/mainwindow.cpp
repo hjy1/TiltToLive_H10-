@@ -18,26 +18,24 @@ MainWindow::MainWindow(QWidget *parent) :
     /* Scene
      * ***************** */
     ui->setupUi(this);
-    this->setFixedSize(MAP_SIZE_L+20, MAP_SIZE_W+120);
-    ui->graphicsView->setFixedSize(MAP_SIZE_L+10, MAP_SIZE_W+10);
+    this->resize(MAP_SIZE_L+10, MAP_SIZE_W+110);
+    this->setMinimumSize(2 * ARROW_SIZE + 10, 2 * ARROW_SIZE + 110);
     ui->graphicsView->setScene(&scene);
-    ui->graphicsView->setSceneRect(0,0,MAP_SIZE_L, MAP_SIZE_W);
     ui->graphicsView->show();
-
-    /* Pause & Resume
-     * ***************** */
-    pau = ui->menuBar->addAction("Pause");
-    pau->setVisible(true);
-    res = ui->menuBar->addAction("Resume");
-    res->setVisible(false);
-    connect(pau, SIGNAL(triggered()), this, SLOT(game_pause()));
-    connect(res, SIGNAL(triggered()), this, SLOT(game_resume()));
 
     /* Timer
      * ***************** */
     update_time = new QTimer;
     connect(update_time, SIGNAL(timeout()), this, SLOT(refresh_game_map()));
     update_time->start(ONE_TIK_TIME);
+
+    /* Pause & Resume
+     * ***************** */
+    pau = ui->menuBar->addAction("Pause");
+    res = ui->menuBar->addAction("Resume");
+    connect(pau, SIGNAL(triggered()), this, SLOT(game_pause()));
+    connect(res, SIGNAL(triggered()), this, SLOT(game_resume()));
+    game_pause();
 
     /* Mouse
      * ***************** */
@@ -48,7 +46,6 @@ MainWindow::MainWindow(QWidget *parent) :
      * ***************** */
     init();
     qsrand(time(nullptr));
-    game_pause();
 }
 
 MainWindow::~MainWindow()
@@ -72,12 +69,14 @@ void MainWindow::map_clicked(const double &x, const double &y){
 }
 
 void MainWindow::game_pause(){
+    gamestage = 0;
     update_time->stop();
     pau->setVisible(false);
     res->setVisible(true);
 }
 
 void MainWindow::game_resume(){
+    gamestage = 1;
     update_time->start(ONE_TIK_TIME);
     pau->setVisible(true);
     res->setVisible(false);
@@ -86,4 +85,20 @@ void MainWindow::game_resume(){
 void MainWindow::game_end(){
     QMessageBox::information(nullptr, "Game Over!", "Redpoints have caught you!");
     QApplication::quit();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event){
+    QWidget::resizeEvent(event);
+    int w = this->height(), l = this->width();
+    ui->graphicsView->setFixedSize(l, w - 100);
+    MAP_SIZE_L = l - 10;
+    MAP_SIZE_W = w - 100 - 10;
+    ui->graphicsView->setSceneRect(0,0,MAP_SIZE_L, MAP_SIZE_W);
+    qDebug() << NUM(MAP_SIZE_L) << NUM(MAP_SIZE_W);
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *ev){
+    QWidget::keyPressEvent(ev);
+    if(ev->key() == Qt::Key_Space)
+        gamestage ? game_pause() : game_resume();
 }

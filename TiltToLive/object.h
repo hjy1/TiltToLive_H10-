@@ -16,7 +16,7 @@ public:
     Object(const double &x, const double &y, const double &r);
 
     /* create a object with a random position in gamemap:
-     * r < x < MAP_SIZE_W - r, r < y < MAP_SIZE_L - r
+     * r < x < MAP_SIZE_L - r, r < y < MAP_SIZE_W - r
      * **************************** */
     Object(const double &r);
 

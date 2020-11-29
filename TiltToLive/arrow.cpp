@@ -50,7 +50,7 @@ void Arrow::add_scene(QGraphicsScene *scene){
 
 void Arrow::set_item_position(){
     const double &x = getp().getx(), &y = getp().gety(), &r = getr();
-    item->setPos(y - r, x - r);
+    item->setPos(x - r, y - r);
 }
 
 void Arrow::move_one_tick(){
