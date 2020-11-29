@@ -53,6 +53,10 @@ void Tool::reset_v()
 
 }
 
+bool Tool::arrow_reached() const{
+    return check_overlap(*this, *arrow_ptr);
+}
+
 void Tool::add_scene(QGraphicsScene *scene){
     item = new QGraphicsPixmapItem;
     scene->addItem(item);
