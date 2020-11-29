@@ -8,15 +8,24 @@
 
 class Tool: public Object{
 private:
+    const Object* const arrow_ptr;
     QGraphicsPixmapItem* item;
     enum class ToolType {INVINCE, FRRRZE, SHOOT, BOOM, EXPLOSION, SWIRL, SHOCKWAVE} toolType; //seven tools for now
     double rotate_angle{0};
     const int TYPENUM = 7;
+    const QString tool_image_lookup[7] = { ":/resources/tools/invince.jpg",
+                                           ":/resources/tools/freeze.jpg",
+                                           ":/resources/tools/shoot.jpg",
+                                           ":/resources/tools/boom.jpg",
+                                           ":/resources/tools/explosion.jpg",
+                                           ":/resources/tools/swirl.jpg",
+                                           ":/resources/tools/shockwave.jpg",
+                                         };
 
     void set_item_position();
 
 public:
-    Tool(const double &x, const double &y, QGraphicsScene* scene = nullptr);
+    Tool(const double &x, const double &y, QGraphicsScene* scene = nullptr, const Object* const arrow = nullptr);
     Tool(const Tool &tool);
 
     /* Create a redpoint on random position in game map
@@ -42,3 +51,7 @@ public:
     void shockwave();
 
 };
+
+
+
+#endif // TOOL_H
