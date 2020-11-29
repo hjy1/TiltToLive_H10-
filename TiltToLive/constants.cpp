@@ -26,3 +26,7 @@ const QColor REDPOINT_COLOR                 (200, 100, 100);
 const QColor ARROW_COLOR                    (0, 160, 230);
 
 const double EPSILON = 0.0000001;
+
+const double TOOL_MAX_NUMBER =              10;
+const double TOOL_CREATION_CHANCE =         0.05;
+const double TOOL_SPEED = rate *            50;
