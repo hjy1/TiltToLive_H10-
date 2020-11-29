@@ -27,6 +27,7 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
+    tool.cpp \
     vector.cpp \
     circle.cpp \
     object.cpp \
@@ -38,6 +39,7 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
+    tool.h \
     vector.h \
     circle.h \
     object.h \
