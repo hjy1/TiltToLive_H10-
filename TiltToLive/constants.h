@@ -27,6 +27,10 @@ extern const QColor REDPOINT_COLOR;
 extern const QColor ARROW_COLOR;
 
 extern const double EPSILON;
+
+extern const double TOOL_MAX_NUMBER;
+extern const double TOOL_CREATION_CHANCE;
+extern const double TOOL_SPEED;
 //code
 #define NUM(x)  QString::number(x)
 
