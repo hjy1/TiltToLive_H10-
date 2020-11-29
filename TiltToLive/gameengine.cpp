@@ -99,7 +99,8 @@ void GameEngine::merge_redpoints() //need more test
 void GameEngine::create_redpoints()
 {
     using namespace std;
-    static const int num_tick = round(REDPOINT_WAIT_TIME / ONE_TIK_TIME);
+    static int num_tick = round(REDPOINT_WAIT_TIME / ONE_TIK_TIME);
+    if(num_tick == 0)   num_tick = 1;
     static const double dr = (256.0 - REDPOINT_COLOR.red()) / num_tick;
     static const double dg = (256.0 - REDPOINT_COLOR.green()) / num_tick;
     static const double db = (256.0 - REDPOINT_COLOR.blue()) / num_tick;
