@@ -5,6 +5,7 @@
 #include <algorithm>
 #include "arrow.h"
 #include "redpoint.h"
+#include "tool.h"
 #include <QGraphicsScene>
 
 using std::list;
@@ -24,6 +25,7 @@ public:
     QGraphicsScene scene;
 	Arrow arrow;
     list<Redpoint> redpoints;
+    list<Tool> tools;
     typedef std::pair<Redpoint, int> pRi;
     list<pRi> waitlist;
     bool game_is_end;
