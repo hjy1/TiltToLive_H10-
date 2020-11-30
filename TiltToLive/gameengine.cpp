@@ -24,7 +24,7 @@ void GameEngine::move_objects()
     arrow_turn();
     merge_redpoints();
     create_redpoints();
-    //tools_turn();
+    tools_turn();
     reset_positions();
 }
 
@@ -34,6 +34,7 @@ GameEngine::GameEngine(): arrow(MAP_SIZE_L/2, MAP_SIZE_W/2){}
 
 GameEngine::~GameEngine(){
     redpoints.clear();
+    tools.clear();
 }
 
 /* Redpoints related: merge redpoints
@@ -147,12 +148,61 @@ void GameEngine::reset_positions()
         if((*it).target_reached())
             game_is_end = true;
     }
+
+    for(list<Tool>::iterator it = tools.begin(); it != tools.end();  ){
+        (*it).move_one_tick();
+        if((*it).arrow_reached()){ //check whether a tool hits the arrow
+            //delete the tools that have finished its effect
+            it = tools.erase(it);
+            qDebug() << "delete a tool that has finished its effect";
+            continue;
+        }
+        it++;
+    }
 }
+
+
+
+void GameEngine::create_tools()
+{
+    using namespace std;
+    static int time = 0;
+    time += ONE_TIK_TIME;
+
+    if( time <= TOOL_EMPTY_TIME) return;
+    if( tools.size() < TOOL_MAX_NUMBER) {
+        bool flag = (qrand() * 1.0 / RAND_MAX < TOOL_CREATION_CHANCE);//whether a new tool will be generated
+        if(flag)
+        {
+            Tool tmp(&scene, &arrow);
+            tools.push_back(tmp);        
+        }
+    }
+
+}
+
+void GameEngine::delete_tools()//to delete the tools that exceed its life span
+{
+
+    for(list<Tool>::iterator it = tools.begin(); it != tools.end(); ){
+       it->clock_change();
+       if( it->get_time() > TOOL_LIFE_SPAN ){
+           it = tools.erase(it);
+           qDebug() << "delete a tool that exceeds its life span";
+           continue;
+       }
+       it++;
+    }
+}
+
+void GameEngine::tools_turn()			{
+    delete_tools();
+    create_tools();
+}
+
 
 
 /*uncompleted functions
 --------------------------------------------------------------------------------*/
 void GameEngine::effects_turn()			{}
 void GameEngine::arrow_turn()			{}
-void GameEngine::tools_turn()			{}
-
