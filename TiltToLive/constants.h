@@ -28,9 +28,13 @@ extern const QColor ARROW_COLOR;
 
 extern const double EPSILON;
 
+extern const double TOOL_SIZE;
 extern const double TOOL_MAX_NUMBER;
 extern const double TOOL_CREATION_CHANCE;
 extern const double TOOL_SPEED;
+extern const double TOOL_LIFE_SPAN;
+extern const double TOOL_EMPTY_TIME;
+
 //code
 #define NUM(x)  QString::number(x)
 
