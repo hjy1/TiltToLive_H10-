@@ -12,15 +12,16 @@ private:
     QGraphicsPixmapItem* item;
     enum class ToolType {INVINCE, FRRRZE, SHOOT, BOOM, EXPLOSION, SWIRL, SHOCKWAVE} toolType; //seven tools for now
     double rotate_angle{0};
-    const int TYPENUM = 7;
-    const QString tool_image_lookup[7] = { ":/resources/tools/invince.jpg",
-                                           ":/resources/tools/freeze.jpg",
-                                           ":/resources/tools/shoot.jpg",
-                                           ":/resources/tools/boom.jpg",
-                                           ":/resources/tools/explosion.jpg",
-                                           ":/resources/tools/swirl.jpg",
-                                           ":/resources/tools/shockwave.jpg",
-                                         };
+    static const int TYPENUM;// = 7;
+    static const QString tool_image_lookup[];
+    /* = {  ":/resources/tools/invince.jpg",
+            ":/resources/tools/freeze.jpg",
+            ":/resources/tools/shoot.jpg",
+            ":/resources/tools/boom.jpg",
+            ":/resources/tools/explosion.jpg",
+            ":/resources/tools/swirl.jpg",
+            ":/resources/tools/shockwave.jpg",
+         };*/
 
     void set_item_position();
 
@@ -28,7 +29,7 @@ public:
     Tool(const double &x, const double &y, QGraphicsScene* scene = nullptr, const Object* const arrow = nullptr);
     Tool(const Tool &tool);
 
-    /* Create a redpoint on random position in game map
+    /* Create a tool on random position in game map
      * will call Object(const double &r);
      * ********************************************** */
     Tool(QGraphicsScene* scene = nullptr, const Object* const &target = nullptr);
@@ -52,7 +53,4 @@ public:
     void shockwave();
 
 };
-
-
-
 #endif // TOOL_H

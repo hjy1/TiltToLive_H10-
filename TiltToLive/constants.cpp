@@ -1,4 +1,6 @@
 #include "constants.h"
+#include <QString>
+#include "tool.h"
 
 //constants
 static const double rate = 2.0;
@@ -30,3 +32,13 @@ const double EPSILON = 0.0000001;
 const double TOOL_MAX_NUMBER =              10;
 const double TOOL_CREATION_CHANCE =         0.05;
 const double TOOL_SPEED = rate *            50;
+
+const int Tool::TYPENUM = 7;
+const QString Tool::tool_image_lookup[] = { ":/resources/tools/invince.jpg",
+                                       ":/resources/tools/freeze.jpg",
+                                       ":/resources/tools/shoot.jpg",
+                                       ":/resources/tools/boom.jpg",
+                                       ":/resources/tools/explosion.jpg",
+                                       ":/resources/tools/swirl.jpg",
+                                       ":/resources/tools/shockwave.jpg",
+                                     };
