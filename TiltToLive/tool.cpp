@@ -10,18 +10,31 @@ inline double get_rand(const double &mn, const double &mx){
 }
 
 Tool::Tool(const double &x, const double &y,QGraphicsScene* scene, const Object* const arrow):
-    Object(x,y,INITIAL_REDPOINT_SIZE), arrow_ptr(arrow), item(nullptr)	{
-    if(scene != nullptr)    add_scene(scene);
-    srand(time(NULL));
-    int random_number = rand() % TYPENUM;
+    Object(x,y,TOOL_SIZE), arrow_ptr(arrow), item(nullptr)	{
+    
+    int random_number = qrand() % TYPENUM;
+        
     toolType = static_cast<ToolType>(random_number);
     qDebug() << "ToolType: " << random_number;
+        
+    if(scene != nullptr)    add_scene(scene);
+    get_initial_v();
 }
 
 Tool::Tool(const Tool &rdpt):
     Object(rdpt), arrow_ptr(rdpt.arrow_ptr), item(nullptr), toolType(rdpt.toolType), rotate_angle(rdpt.rotate_angle)
 {
     if(rdpt.item != nullptr)    add_scene(rdpt.item->scene());
+}
+
+Tool::Tool(QGraphicsScene *scene, const Object * const &arrow):
+    Object(TOOL_SIZE), arrow_ptr(arrow), item(nullptr)
+{
+    int random_number = qrand() % TYPENUM;
+    toolType = static_cast<ToolType>(random_number);
+    qDebug() << "ToolType: " << random_number;
+    if(scene != nullptr)    add_scene(scene);
+    get_initial_v();
 }
 
 Tool::~Tool(){
@@ -32,25 +45,39 @@ Tool::~Tool(){
     delete item;
 }
 
+void Tool::get_initial_v()
+{
+    const int r = getr();
+    Vector random_vector(get_rand(r, MAP_SIZE_L - r), get_rand(r, MAP_SIZE_W - r));
+    v = random_vector.set_lenth(TOOL_SPEED);
+}
+
 void Tool::reset_v()
 {
     if(arrow_ptr != nullptr){
-        if(check_overlap(*this, *arrow_ptr))
+        if( arrow_reached() )
         {
             qDebug() << "Get a Tool!";
             v.reset_xy(0,0);
             operation();
-            return ;
+            return;
         }
-        //give it a virtual target and change its direction
-        Vector random_vector(get_rand(c.getr(), MAP_SIZE_L - c.getr()), get_rand(c.getr(), MAP_SIZE_W - c.getr()) );
-        Vector deltap = random_vector - this->getp();
-        v = deltap.set_lenth(REDPOINT_SPEED_MAX * 0.5);
+        //if it hits the wall, then bounce back according to physical equation
+        const int r = getr();
+        const int x = getc().getp().getx(); const int y = getc().getp().gety();
+        const int v_x = getv().getx(); const int v_y = getv().gety();
+        if( x <= r || x >= MAP_SIZE_L - r){
+        Vector v_new( -v_x, v_y );
+        v = v_new.set_lenth(TOOL_SPEED);
+        }
+        if( y <= r || y >= MAP_SIZE_W - r){
+          Vector v_new( v_x, -v_y );
+          v = v_new.set_lenth(TOOL_SPEED);
+        }
     }
     else {
         v.reset_xy(0,0);
     }
-
 }
 
 bool Tool::arrow_reached() const{
@@ -63,8 +90,9 @@ void Tool::add_scene(QGraphicsScene *scene){
     //item->setRect(0, 0, INITIAL_REDPOINT_SIZE * 2, INITIAL_REDPOINT_SIZE * 2);
     int index = static_cast<int>(toolType);
     QPixmap image(tool_image_lookup[index]);
-    item->setPixmap(image.scaled(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE));
+    item->setPixmap(image.scaled(2*TOOL_SIZE, 2*TOOL_SIZE));
     item->setVisible(true);
+    item->setZValue(5000);
     set_item_position();
 }
 
@@ -74,18 +102,20 @@ void Tool::set_item_position(){
     rotate();
 }
 
-
 void Tool::rotate()
 {
-    rotate_angle += 3.6;
+    rotate_angle += 1.8;
     item->setRotation(rotate_angle);
 }
+
+void Tool::clock_change() { time_count += ONE_TIK_TIME; }
+int Tool::get_time() const { return time_count; }
 
 void Tool::operation()
 {
     switch(toolType){
      case ToolType::INVINCE: invince(); break;
-     case ToolType::FRRRZE:  freeze();  break;
+     case ToolType::FREEZE:  freeze();  break;
      case ToolType::SHOOT:   shoot();   break;
      case ToolType::BOOM:    boom();    break;
      case ToolType::EXPLOSION:explosion(); break;
