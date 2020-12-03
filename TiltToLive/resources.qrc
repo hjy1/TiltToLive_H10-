@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/resources"/>
+    <qresource prefix="/resources" lang="/">
+        <file>background/back1.jpg</file>
+        <file>background/back2.jpg</file>
+        <file>tools/bomb.png</file>
+        <file>tools/explosion.png</file>
+        <file>tools/freeze.png</file>
+        <file>tools/invince.png</file>
+        <file>tools/shockwave.png</file>
+        <file>tools/shoot.png</file>
+        <file>tools/swirl.png</file>
+    </qresource>
+</RCC>

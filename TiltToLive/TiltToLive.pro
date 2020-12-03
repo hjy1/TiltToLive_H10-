@@ -35,7 +35,9 @@ SOURCES += \
     gameengine.cpp \
     arrow.cpp \
     clickableview.cpp \
-    constants.cpp
+    constants.cpp \
+    gunbullet.cpp \
+    boom.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -47,7 +49,9 @@ HEADERS += \
     redpoint.h \
     gameengine.h \
     arrow.h \
-    clickableview.h
+    clickableview.h \
+    gunbullet.h \
+    boom.h
 
 FORMS += \
         mainwindow.ui
@@ -56,3 +60,8 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resources.qrc \
+    resources.qrc \
+    resources.qrc

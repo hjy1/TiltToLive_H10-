@@ -18,6 +18,9 @@ void Circle::reset(const double &_x, const double &_y, const double &_r){
 void Circle::reset(const Vector &_p, const double &_r){
     p = _p; r = _r;
 }
+void Circle::reset(const double &_r) {
+    r = _r;
+}
 void Circle::move(const double &deltax, const double &deltay){
     p.getx() += deltax; p.gety() += deltay;
 }
@@ -34,4 +37,10 @@ bool check_overlap(const Circle& c1, const Circle& c2)
 {
 	double dis = get_distance(c1,c2);
 	return std::max(c1.r, c2.r) > dis;
+}
+
+bool check_touched(const Circle& c1, const Circle& c2)
+{
+    double dis = get_distance(c1,c2);
+    return c1.r + c2.r > dis;
 }

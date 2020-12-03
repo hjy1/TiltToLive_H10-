@@ -46,15 +46,7 @@ public:
     int get_time() const;
     bool arrow_reached() const;
 
-    void operation();
-
-    void invince();
-    void freeze();
-    void shoot();
-    void boom();
-    void explosion();
-    void swirl();
-    void shockwave();
+    ToolType operation();
 
 };
 #endif // TOOL_H

@@ -47,7 +47,7 @@ Tool::~Tool(){
 
 void Tool::get_initial_v()
 {
-    const int r = getr();
+    const double r = getr();
     Vector random_vector(get_rand(r, MAP_SIZE_L - r), get_rand(r, MAP_SIZE_W - r));
     v = random_vector.set_lenth(TOOL_SPEED);
 }
@@ -63,9 +63,9 @@ void Tool::reset_v()
             return;
         }
         //if it hits the wall, then bounce back according to physical equation
-        const int r = getr();
-        const int x = getc().getp().getx(); const int y = getc().getp().gety();
-        const int v_x = getv().getx(); const int v_y = getv().gety();
+        const double r = getr();
+        const double x = getc().getp().getx(); const double y = getc().getp().gety();
+        const double v_x = getv().getx(); const double v_y = getv().gety();
         if( x <= r || x >= MAP_SIZE_L - r){
         Vector v_new( -v_x, v_y );
         v = v_new.set_lenth(TOOL_SPEED);
@@ -81,7 +81,7 @@ void Tool::reset_v()
 }
 
 bool Tool::arrow_reached() const{
-    return check_overlap(*this, *arrow_ptr);
+    return check_touched(*this, *arrow_ptr);
 }
 
 void Tool::add_scene(QGraphicsScene *scene){
@@ -111,32 +111,10 @@ void Tool::rotate()
 void Tool::clock_change() { time_count += ONE_TIK_TIME; }
 int Tool::get_time() const { return time_count; }
 
-void Tool::operation()
+Tool::ToolType Tool::operation()
 {
-    switch(toolType){
-     case ToolType::INVINCE: invince(); break;
-     case ToolType::FREEZE:  freeze();  break;
-     case ToolType::SHOOT:   shoot();   break;
-     case ToolType::BOOM:    boom();    break;
-     case ToolType::EXPLOSION:explosion(); break;
-     case ToolType::SWIRL:   swirl();   break;
-     case ToolType::SHOCKWAVE:shockwave(); break;
-    }
+    return toolType;
 }
-
-void Tool::invince(){}
-
-void Tool::freeze(){}
-
-void Tool::shoot(){}
-
-void Tool::boom(){}
-
-void Tool::explosion(){}
-
-void Tool::swirl(){}
-
-void Tool::shockwave(){}
 
 void Tool::move_one_tick(){
     Object::move_one_tick();

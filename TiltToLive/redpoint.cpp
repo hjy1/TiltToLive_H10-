@@ -1,5 +1,5 @@
 #include "Redpoint.h"
-#include "Constants.h"
+#include "constants.h"
 
 #include <cmath>
 #include <QDebug>
@@ -48,6 +48,10 @@ double get_suitable_v(const double &crtv, const double &dis){
 
 void Redpoint::reset_v()
 {
+    if(freeze) {
+        v.reset_xy(0, 0);
+        return ;
+    }
 	if(target != nullptr)
     {
         Vector deltap = target->getp() - this->getp();
@@ -105,4 +109,12 @@ void Redpoint::set_color(const int &red, const int &green, const int &blue){
 void Redpoint::set_Zvalue(const int &z){
     if(item == nullptr || item->scene() == nullptr) return ;
     item->setZValue(z);
+}
+
+void Redpoint::set_freeze() {
+    freeze = true;
+}
+
+void Redpoint::un_freeze() {
+    freeze = false;
 }

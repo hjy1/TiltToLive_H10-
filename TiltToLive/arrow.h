@@ -1,5 +1,5 @@
 #ifndef ARROW_H
-#define ARROR_H
+#define ARROW_H
 
 #include "object.h"
 #include "constants.h"
@@ -7,6 +7,7 @@
 class Arrow: public Object	{
 private:
     Vector target;
+    Vector pre_v;
     QGraphicsEllipseItem* item;
     void reset_v();
 public:
@@ -18,6 +19,8 @@ public:
     void add_scene(QGraphicsScene* scene);
     void set_item_position();
     void move_one_tick();
+    Vector get_prev();
+    void set_color(const int &red, const int &green, const int &blue);
 };
 
 #endif

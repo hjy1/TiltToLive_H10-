@@ -57,7 +57,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::refresh_game_map(){
-    static int count = 0;
+    //static int count = 0;
     //qDebug() << "gamemap refreshed" <<QString::number(count++);
     move_objects();
     if(game_is_end) game_end();

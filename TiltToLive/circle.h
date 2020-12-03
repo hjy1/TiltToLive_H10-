@@ -17,11 +17,13 @@ class Circle{
 
 	void reset(const double &_x, const double &_y, const double &_r);
 	void reset(const Vector &_p, const double &_r);
+    void reset(const double &_r);
 	void move(const double &deltax, const double &deltay);
 	void move(const Vector &deltap);
 
 	friend double get_distance(const Circle& c1, const Circle& c2);
 	friend bool check_overlap(const Circle& c1, const Circle& c2);
+    friend bool check_touched(const Circle& c1, const Circle& c2);
 };
 
 #endif

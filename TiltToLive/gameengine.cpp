@@ -6,6 +6,8 @@
 #include <QString>
 #include <queue>
 
+#include "object.h"
+
 using std::vector;
 
 /*init
@@ -20,7 +22,7 @@ void GameEngine::init(){
 --------------------------------------------------------------------------------*/
 void GameEngine::move_objects()
 {
-    //effects_turn();
+    effects_turn();
     arrow_turn();
     merge_redpoints();
     create_redpoints();
@@ -143,22 +145,68 @@ void GameEngine::create_redpoints()
 void GameEngine::reset_positions()
 {
     arrow.move_one_tick();
-    for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end(); it++){
+    for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end();){
         (*it).move_one_tick();
-        if((*it).target_reached())
-            game_is_end = true;
+        if((*it).target_reached()) {
+            if(invince) {
+                it = redpoints.erase(it);
+                continue;
+            }
+            else
+                game_is_end = true;
+        }
+        ++it;
     }
 
     for(list<Tool>::iterator it = tools.begin(); it != tools.end();  ){
         (*it).move_one_tick();
         if((*it).arrow_reached()){ //check whether a tool hits the arrow
             //delete the tools that have finished its effect
+            int op = static_cast<int>((*it).operation());
+            //debug
+            boom = true;
+            /*
+             * freeze:
+            frz_time = 0;
+             * invince:
+            invince = true;
+            inv_time = 0;
+            arrow.set_color(0, 255, 255);
+             * shoot:
+            remain_bullet += INITIAL_BULLET_AMOUNT;
+            */
             it = tools.erase(it);
             qDebug() << "delete a tool that has finished its effect";
             continue;
         }
         it++;
     }
+
+
+    for(list<Gunbullet>::iterator it = gunbullets.begin(); it != gunbullets.end(); ) {
+        (*it).move_one_tick();
+        if((*it).touch_wall()) {
+            it = gunbullets.erase(it);
+            qDebug() << "delete a bullet when it touched the wall";
+            continue;
+        }
+        it++;
+    }
+
+    for(auto it = booms.begin(); it != booms.end(); ) {
+        (*it).move_one_tick();
+        if((*it).getr() >= BOOM_MAX_SIZE && !(*it).holding() && !(*it).squeezing()) {
+            (*it).change_sig();
+            (*it).hold();
+        }
+        else if((*it).getr() <= INITIAL_BOOM_SIZE && (*it).squeezing()) {
+            it = booms.erase(it);
+            qDebug() << "delete a boom when it minimized";
+            continue;
+        }
+        ++it;
+    }
+
 }
 
 
@@ -178,7 +226,6 @@ void GameEngine::create_tools()
             tools.push_back(tmp);        
         }
     }
-
 }
 
 void GameEngine::delete_tools()//to delete the tools that exceed its life span
@@ -195,6 +242,85 @@ void GameEngine::delete_tools()//to delete the tools that exceed its life span
     }
 }
 
+void GameEngine::create_bullets()
+{
+    using namespace std;
+
+    if(remain_bullet <= 0) return;
+    //debug
+    --remain_bullet;
+    qDebug() << "remain" << remain_bullet;
+    Gunbullet tmp(&scene, arrow.getp().getx(), arrow.getp().gety(), arrow.get_prev());
+    gunbullets.push_back(tmp);
+    qDebug() << "create a new one";
+}
+
+void GameEngine::delete_bullets() {
+    using namespace std;
+
+    for(auto i = gunbullets.begin(); i != gunbullets.end(); ) {
+        bool flag = false;
+        for(auto j = redpoints.begin(); j != redpoints.end(); ) {
+            if(check_touched((*i), (*j))) {
+                flag = true;
+                j = redpoints.erase(j);
+                continue;
+            }
+            ++j;
+        }
+        if(flag) {
+            i = gunbullets.erase(i);
+            continue;
+        }
+        ++i;
+    }
+}
+
+void GameEngine::set_invince() {
+    using namespace std;
+    inv_time += ONE_TIK_TIME;
+    if( inv_time > INVINCE_MAX_TIME) {
+        invince = false;
+        arrow.set_color(0, 160, 230);
+    }
+}
+
+void GameEngine::set_freeze() {
+    using namespace std;
+    frz_time += ONE_TIK_TIME;
+    if( frz_time > FREEZE_MAX_TIME)
+        for (auto it = redpoints.begin(); it != redpoints.end(); ++it) {
+            (*it).un_freeze();
+        }
+    else {
+        for (auto it = redpoints.begin(); it != redpoints.end(); ++it) {
+            (*it).set_freeze();
+        }
+    }
+}
+
+void GameEngine::create_boom() {
+    using namespace std;
+    if(!boom) return ;
+    Boom tmp(&scene, arrow.getp().getx(), arrow.getp().gety());
+    booms.push_back(tmp);
+    boom = false;
+}
+
+void GameEngine::delete_boom() {
+    using namespace std;
+    for(auto i = booms.begin(); i != booms.end(); ++i) {
+        for(auto j = redpoints.begin(); j != redpoints.end(); ) {
+            if(check_touched((*i), (*j))) {
+                j = redpoints.erase(j);
+                continue;
+            }
+            ++j;
+        }
+    }
+
+}
+
 void GameEngine::tools_turn()			{
     delete_tools();
     create_tools();
@@ -204,5 +330,12 @@ void GameEngine::tools_turn()			{
 
 /*uncompleted functions
 --------------------------------------------------------------------------------*/
-void GameEngine::effects_turn()			{}
+void GameEngine::effects_turn()			{
+    create_bullets();
+    delete_bullets();
+    set_invince();
+    set_freeze();
+    create_boom();
+    delete_boom();
+}
 void GameEngine::arrow_turn()			{}

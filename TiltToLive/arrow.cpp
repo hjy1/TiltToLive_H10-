@@ -29,9 +29,13 @@ Arrow::~Arrow(){
 
 void Arrow::reset_v(){
     v = target - c.getp();
-    if(v.is_zero()) v.reset_xy(0.0,0.0);
+    if(v.is_zero()) {
+        v.reset_xy(0.0,0.0);
+        return ;
+    }
     else if(v.getlen() < ARROW_SPEED * ONE_TIK_TIME / 1000)    v = v / ONE_TIK_TIME * 1000;
     else v.set_lenth(ARROW_SPEED);
+    pre_v = v;
 }
 
 void Arrow::set_target(const double &x, const double &y){
@@ -56,4 +60,13 @@ void Arrow::set_item_position(){
 void Arrow::move_one_tick(){
     Object::move_one_tick();
     set_item_position();
+}
+
+Vector Arrow::get_prev() {
+    return pre_v;
+}
+
+void Arrow::set_color(const int &red, const int &green, const int &blue){
+    if(item == nullptr || item->scene() == nullptr) return ;
+    item->setBrush(QBrush(QColor(red,green,blue)));
 }

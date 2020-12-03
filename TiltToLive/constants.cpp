@@ -19,6 +19,19 @@ const double REDPOINT_CREATION_CHANCE =     0.1;    /* for each tick game engine
 const double REDPOINT_MAX_NUMBER =          20;
 const double REDPOINT_WAIT_TIME =           3000;   /* ms */
 
+const double INITIAL_BULLET_SIZE = rate *   3;
+const double INITIAL_BULLET_SPEED = rate *  300;
+const double INITIAL_BULLET_AMOUNT =        100;
+
+const double INITIAL_BOOM_SIZE = rate *     2;
+const double BOOM_MAX_SIZE = rate *         52;
+const double BOOM_R_CHANGE_SPEED = rate *   10;
+const double BOOM_TIME =                    500;
+
+const int INVINCE_MAX_TIME =                3000;
+
+const int FREEZE_MAX_TIME =                 4000;
+
 const double SAFE_TIME =                    5000;   /* when redpoints approach, it should keep in min speed for SAFE_TIME ms before crash in arrow*/
 
 const double ARROW_SIZE = rate *            10;
@@ -26,6 +39,8 @@ const double ARROW_SPEED = rate *           100;
 
 const QColor REDPOINT_COLOR                 (200, 100, 100);
 const QColor ARROW_COLOR                    (0, 160, 230);
+const QColor GUNBULLET_COLOR                (0, 255, 0);
+const QColor BOOM_COLOR                     (255, 255, 0);
 
 const double EPSILON = 0.0000001;
 

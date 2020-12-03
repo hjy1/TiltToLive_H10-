@@ -18,6 +18,19 @@ extern const double REDPOINT_CREATION_CHANCE;
 extern const double REDPOINT_MAX_NUMBER;
 extern const double REDPOINT_WAIT_TIME;
 
+extern const double INITIAL_BULLET_SIZE;
+extern const double INITIAL_BULLET_SPEED;
+extern const double INITIAL_BULLET_AMOUNT;
+
+extern const double INITIAL_BOOM_SIZE;
+extern const double BOOM_MAX_SIZE;
+extern const double BOOM_R_CHANGE_SPEED;
+extern const double BOOM_TIME;
+
+extern const int INVINCE_MAX_TIME;
+
+extern const int FREEZE_MAX_TIME;
+
 extern const double SAFE_TIME;
 
 extern const double ARROW_SIZE;
@@ -25,6 +38,8 @@ extern const double ARROW_SPEED;
 
 extern const QColor REDPOINT_COLOR;
 extern const QColor ARROW_COLOR;
+extern const QColor GUNBULLET_COLOR;
+extern const QColor BOOM_COLOR;
 
 extern const double EPSILON;
 

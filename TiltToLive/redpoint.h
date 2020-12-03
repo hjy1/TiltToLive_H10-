@@ -9,7 +9,7 @@ private:
 	const Object* const target;
     QGraphicsEllipseItem* item;
     int num;
-
+    bool freeze = false;
     void set_item_position();
 
 public:
@@ -30,6 +30,8 @@ public:
     void merge(const Redpoint& rp2);
     void set_color(const int &red, const int &green, const int &blue);
     void set_Zvalue(const int &z);
+    void set_freeze();
+    void un_freeze();
 };
 
 #endif

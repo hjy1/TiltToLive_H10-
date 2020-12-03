@@ -34,7 +34,9 @@ public:
 
 	friend double get_distance(const Object &o1, const Object &o2);
 	friend bool check_overlap(const Object &o1,const Object &o2);
+    friend bool check_touched(const Object &o1, const Object &o2);
 
 };
+
 
 #endif

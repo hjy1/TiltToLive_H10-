@@ -1,5 +1,5 @@
 #include "object.h"
-#include "Constants.h"
+#include "constants.h"
 
 inline double get_rand(const double &mn, const double &mx){
     return mn + qrand() * 1.0 / RAND_MAX * (mx - mn);
@@ -30,3 +30,8 @@ void Object::move_one_tick(){
 double get_distance(const Object &o1, const Object &o2)	{	return get_distance(o1.c, o2.c); }
 
 bool check_overlap(const Object &o1, const Object &o2)	{	return check_overlap(o1.c, o2.c);}
+
+bool check_touched(const Object &o1, const Object &o2)  {   return check_touched(o1.c, o2.c);}
+
+
+
