@@ -9,7 +9,7 @@
 class Tool: public Object{
 private:
     const Object* const arrow_ptr;
-    QGraphicsPixmapItem* item;
+    QGraphicsEllipseItem* item;
     enum class ToolType {INVINCE, FREEZE, SHOOT, BOOM, EXPLOSION, SWIRL, SHOCKWAVE} toolType; //seven tools for now
     int time_count = 0;
     double rotate_angle = 0;

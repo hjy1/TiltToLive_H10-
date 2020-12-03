@@ -44,12 +44,12 @@ const QColor BOOM_COLOR                     (255, 255, 0);
 
 const double EPSILON = 0.0000001;
 
-const double TOOL_SIZE = rate *             7.5;
+const double TOOL_SIZE = rate *             15;
 const double TOOL_MAX_NUMBER =              5;
 const double TOOL_CREATION_CHANCE =         0.020;
 const double TOOL_SPEED = rate *            30;
 const double TOOL_LIFE_SPAN =               15000;  /* ms */
-const double TOOL_EMPTY_TIME =              8000;   /* ms */
+const double TOOL_EMPTY_TIME =              3000;   /* ms */
 
 const int Tool::TYPENUM = 7;
 const QString Tool::tool_image_lookup[] = { ":/resources/tools/invince.png",

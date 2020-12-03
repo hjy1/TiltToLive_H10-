@@ -85,13 +85,18 @@ bool Tool::arrow_reached() const{
 }
 
 void Tool::add_scene(QGraphicsScene *scene){
-    item = new QGraphicsPixmapItem;
-    scene->addItem(item);
-    //item->setRect(0, 0, INITIAL_REDPOINT_SIZE * 2, INITIAL_REDPOINT_SIZE * 2);
+    item = new QGraphicsEllipseItem;
+
+    QGraphicsPixmapItem *nitem = new QGraphicsPixmapItem(item);
     int index = static_cast<int>(toolType);
     QPixmap image(tool_image_lookup[index]);
-    item->setPixmap(image.scaled(2*TOOL_SIZE, 2*TOOL_SIZE));
+    nitem->setPixmap(image.scaled(TOOL_SIZE * 1.5, TOOL_SIZE * 1.5));
+    nitem->setPos(TOOL_SIZE * 0.25, TOOL_SIZE * 0.25);
+
+    item->setBrush(QBrush(QColor(255,255,255)));
     item->setVisible(true);
+    scene->addItem(item);
+    item->setRect(0, 0, TOOL_SIZE * 2, TOOL_SIZE * 2);
     item->setZValue(5000);
     set_item_position();
 }
