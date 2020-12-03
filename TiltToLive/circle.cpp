@@ -1,4 +1,4 @@
-#include "Circle.h"
+#include "circle.h"
 #include <cmath>
 #include <algorithm>
 
@@ -42,5 +42,5 @@ bool check_overlap(const Circle& c1, const Circle& c2)
 bool check_touched(const Circle& c1, const Circle& c2)
 {
     double dis = get_distance(c1,c2);
-    return c1.r + c2.r > dis;
+    return c1.r + c2.r >= dis;
 }

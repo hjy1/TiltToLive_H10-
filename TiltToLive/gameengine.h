@@ -60,6 +60,14 @@ public:
     void create_boom();
     void delete_boom();
 
+    //explosion
+    bool explosion = false;
+    list<Gunbullet> gunbullets2;
+    int remain_bullet2 = 0;
+    void create_bullet2();
+    void delete_bullet2();
+
+
     GameEngine();
 	~GameEngine();
     void move_objects();

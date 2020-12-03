@@ -164,8 +164,12 @@ void GameEngine::reset_positions()
             //delete the tools that have finished its effect
             int op = static_cast<int>((*it).operation());
             //debug
-            boom = true;
+            remain_bullet += INITIAL_BULLET_AMOUNT;
             /*
+             * explosion
+            explosion = true;
+             * boom:
+            boom = true;
              * freeze:
             frz_time = 0;
              * invince:
@@ -187,6 +191,16 @@ void GameEngine::reset_positions()
         (*it).move_one_tick();
         if((*it).touch_wall()) {
             it = gunbullets.erase(it);
+            qDebug() << "delete a bullet when it touched the wall";
+            continue;
+        }
+        it++;
+    }
+
+    for(list<Gunbullet>::iterator it = gunbullets2.begin(); it != gunbullets2.end(); ) {
+        (*it).move_one_tick();
+        if((*it).touch_wall()) {
+            it = gunbullets2.erase(it);
             qDebug() << "delete a bullet when it touched the wall";
             continue;
         }
@@ -318,7 +332,39 @@ void GameEngine::delete_boom() {
             ++j;
         }
     }
+}
 
+void GameEngine::create_bullet2() {
+    using namespace std;
+    if(!explosion) return;
+    static const double dx[12] = {0, 0.5, 0.86602, 1, 0.86602, 0.5, 0,
+                                  -0.5, -0.86602, -1, -0.86602, -0.5};
+    static const double dy[12] = {-1, -0.86602, -0.5, 0, 0.5, 0.86602, 1,
+                                  0.86602, 0.5, 0, -0.5, -0.86602};
+    for(int i = 0; i < 12; ++i) {
+        Gunbullet tmp(&scene, arrow.getp().getx(), arrow.getp().gety(), Vector(dx[i], dy[i]));
+        gunbullets2.push_back(tmp);
+    }
+    explosion = false;
+}
+
+void GameEngine::delete_bullet2() {
+    for(auto i = gunbullets2.begin(); i != gunbullets2.end(); ) {
+        bool flag = false;
+        for(auto j = redpoints.begin(); j != redpoints.end(); ) {
+            if(check_touched((*i), (*j))) {
+                flag = true;
+                j = redpoints.erase(j);
+                continue;
+            }
+            ++j;
+        }
+        if(flag) {
+            i = gunbullets2.erase(i);
+            continue;
+        }
+        ++i;
+    }
 }
 
 void GameEngine::tools_turn()			{
@@ -337,5 +383,7 @@ void GameEngine::effects_turn()			{
     set_freeze();
     create_boom();
     delete_boom();
+    create_bullet2();
+    delete_bullet2();
 }
 void GameEngine::arrow_turn()			{}
