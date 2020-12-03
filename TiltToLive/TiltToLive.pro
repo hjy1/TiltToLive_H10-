@@ -37,7 +37,9 @@ SOURCES += \
     clickableview.cpp \
     constants.cpp \
     gunbullet.cpp \
-    boom.cpp
+    boom.cpp \
+    annulusitem.cpp \
+    shockwave.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +53,9 @@ HEADERS += \
     arrow.h \
     clickableview.h \
     gunbullet.h \
-    boom.h
+    boom.h \
+    annulusitem.h \
+    shockwave.h
 
 FORMS += \
         mainwindow.ui

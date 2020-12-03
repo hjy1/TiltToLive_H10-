@@ -10,6 +10,7 @@
 #include <QAction>
 #include <QTime>
 #include <QMessageBox>
+#include "annulusitem.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

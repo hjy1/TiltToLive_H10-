@@ -10,6 +10,7 @@
 #include "constants.h"
 #include "gunbullet.h"
 #include "boom.h"
+#include "shockwave.h"
 
 using std::list;
 
@@ -66,6 +67,9 @@ public:
     int remain_bullet2 = 0;
     void create_bullet2();
     void delete_bullet2();
+
+    //shockwave
+    list<ShockWave> waves;
 
 
     GameEngine();

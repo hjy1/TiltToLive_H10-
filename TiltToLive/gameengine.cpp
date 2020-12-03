@@ -16,6 +16,10 @@ void GameEngine::init(){
     game_is_end = false;
     arrow = Arrow(MAP_SIZE_L/2, MAP_SIZE_W/2);
     arrow.add_scene(&scene);
+    waves.push_back(ShockWave(15,15, &scene));
+    waves.push_back(ShockWave(15,MAP_SIZE_W - 15, &scene));
+    waves.push_back(ShockWave(MAP_SIZE_L - 15,15, &scene));
+    waves.push_back(ShockWave(MAP_SIZE_L - 15, MAP_SIZE_W - 15, &scene));
 }
 
 /*overall workflow
@@ -37,6 +41,7 @@ GameEngine::GameEngine(): arrow(MAP_SIZE_L/2, MAP_SIZE_W/2){}
 GameEngine::~GameEngine(){
     redpoints.clear();
     tools.clear();
+    waves.clear();
 }
 
 /* Redpoints related: merge redpoints
@@ -65,7 +70,7 @@ class ufds //union-find disjoint sets
 		}
 };
 
-void GameEngine::merge_redpoints() //need more test
+void GameEngine::merge_redpoints()
 {
 	list<Redpoint>::iterator iter, iter2;
     static vector<list<Redpoint>::iterator> tar;
@@ -219,6 +224,11 @@ void GameEngine::reset_positions()
             continue;
         }
         ++it;
+    }
+
+    for(list<ShockWave>::iterator it = waves.begin(); it != waves.end(); it ++){
+        (*it).move_one_tick();
+        if((*it).to_be_destroyed)   waves.erase(it);
     }
 
 }
