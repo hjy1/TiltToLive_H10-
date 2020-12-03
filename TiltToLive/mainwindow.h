@@ -27,10 +27,13 @@ private:
     Ui::TiltToLive *ui;
     QTimer *update_time;
     QAction *res, *pau;
+    int keybuffer; // 1111 : wads, 1->released, 0->pressed
     bool gamestage; // 0 : pausing, 1: running
     void game_end();
+    void key_controller(); //update arrow velocity when using keyboard to countrol.
     void resizeEvent ( QResizeEvent * event ) override;
     void keyPressEvent (QKeyEvent* ev) override;
+    void keyReleaseEvent (QKeyEvent *ev) override;
 
 private slots:
     void refresh_game_map();

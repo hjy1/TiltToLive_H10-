@@ -52,5 +52,6 @@ extern const double TOOL_EMPTY_TIME;
 
 //code
 #define NUM(x)  QString::number(x)
+#define ISZERO(x) (fabs(x) < EPSILON)
 
 #endif

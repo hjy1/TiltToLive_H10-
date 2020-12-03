@@ -16,6 +16,7 @@ public:
     ~Arrow();
 
     void set_target(const double &x, const double &y);
+    void set_target(const Vector &x);
     void add_scene(QGraphicsScene* scene);
     void set_item_position();
     void move_one_tick();

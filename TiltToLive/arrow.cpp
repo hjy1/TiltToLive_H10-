@@ -28,18 +28,21 @@ Arrow::~Arrow(){
 }
 
 void Arrow::reset_v(){
-    v = target - c.getp();
-    if(v.is_zero()) {
+    Vector del = target - c.getp();
+    if(del.is_zero()) {
         v.reset_xy(0.0,0.0);
         return ;
     }
-    else if(v.getlen() < ARROW_SPEED * ONE_TIK_TIME / 1000)    v = v / ONE_TIK_TIME * 1000;
-    else v.set_lenth(ARROW_SPEED);
+    else if(del.getlen() < ARROW_SPEED * ONE_TIK_TIME / 1000)    v = del / ONE_TIK_TIME * 1000;
+    else v = del.set_lenth(ARROW_SPEED);
     pre_v = v;
 }
 
 void Arrow::set_target(const double &x, const double &y){
     target.reset_xy(x,y);
+}
+void Arrow::set_target(const Vector &x){
+    target = x;
 }
 
 void Arrow::add_scene(QGraphicsScene *scene){
@@ -59,6 +62,23 @@ void Arrow::set_item_position(){
 
 void Arrow::move_one_tick(){
     Object::move_one_tick();
+    if(getp().getx() < ARROW_SIZE){
+        getc().getp().getx() = ARROW_SIZE;
+        target.getx() = ARROW_SIZE;
+    }
+    else if(getp().getx() > MAP_SIZE_L - ARROW_SIZE){
+        getc().getp().getx() = MAP_SIZE_L - ARROW_SIZE;
+        target.getx() = MAP_SIZE_L - ARROW_SIZE;
+    }
+    if(getp().gety() < ARROW_SIZE){
+        getc().getp().gety() = ARROW_SIZE;
+        target.gety() = ARROW_SIZE;
+    }
+    else if(getp().gety() > MAP_SIZE_W - ARROW_SIZE){
+        getc().getp().gety() = MAP_SIZE_W - ARROW_SIZE;
+        target.gety() = MAP_SIZE_W - ARROW_SIZE;
+    }
+
     set_item_position();
 }
 

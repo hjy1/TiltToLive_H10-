@@ -26,7 +26,7 @@ const double INITIAL_BULLET_AMOUNT =        100;
 const double INITIAL_BOOM_SIZE = rate *     2;
 const double BOOM_MAX_SIZE = rate *         52;
 const double BOOM_R_CHANGE_SPEED = rate *   10;
-const double BOOM_TIME =                    500;
+const double BOOM_TIME =                    0;
 
 const int INVINCE_MAX_TIME =                3000;
 
