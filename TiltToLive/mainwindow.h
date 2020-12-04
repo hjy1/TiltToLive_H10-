@@ -26,7 +26,7 @@ private:
 
     Ui::TiltToLive *ui;
     QTimer *update_time;
-    QAction *res, *pau;
+    QAction *res, *pau, *scorer;
     int keybuffer; // 1111 : wads, 1->released, 0->pressed
     bool gamestage; // 0 : pausing, 1: running
     void game_end();

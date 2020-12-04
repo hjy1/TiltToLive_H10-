@@ -62,21 +62,21 @@ void Arrow::set_item_position(){
 
 void Arrow::move_one_tick(){
     Object::move_one_tick();
-    if(getp().getx() < ARROW_SIZE){
-        getc().getp().getx() = ARROW_SIZE;
-        target.getx() = ARROW_SIZE;
+    if(getp().getx() < getr()){
+        getc().getp().getx() = getr();
+        target.getx() = getr();
     }
-    else if(getp().getx() > MAP_SIZE_L - ARROW_SIZE){
-        getc().getp().getx() = MAP_SIZE_L - ARROW_SIZE;
-        target.getx() = MAP_SIZE_L - ARROW_SIZE;
+    else if(getp().getx() > MAP_SIZE_L - getr()){
+        getc().getp().getx() = MAP_SIZE_L - getr();
+        target.getx() = MAP_SIZE_L - getr();
     }
-    if(getp().gety() < ARROW_SIZE){
-        getc().getp().gety() = ARROW_SIZE;
-        target.gety() = ARROW_SIZE;
+    if(getp().gety() < getr()){
+        getc().getp().gety() = getr();
+        target.gety() = getr();
     }
-    else if(getp().gety() > MAP_SIZE_W - ARROW_SIZE){
-        getc().getp().gety() = MAP_SIZE_W - ARROW_SIZE;
-        target.gety() = MAP_SIZE_W - ARROW_SIZE;
+    else if(getp().gety() > MAP_SIZE_W - getr()){
+        getc().getp().gety() = MAP_SIZE_W - getr();
+        target.gety() = MAP_SIZE_W - getr();
     }
 
     set_item_position();

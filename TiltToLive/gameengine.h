@@ -11,10 +11,12 @@
 #include "gunbullet.h"
 #include "swirl.h"
 #include "shockwave.h"
+#include "effect.h"
 
 using std::list;
 
 class GameEngine{
+    friend class Effect;
 private:
 	void effects_turn();
 	void arrow_turn();
@@ -36,6 +38,9 @@ public:
     void init();
     void create_tools();
     void delete_tools();
+
+    //Effects:
+    list<Effect*> effects;
 
     //HE Jiayou
     //Gunbullets
@@ -69,7 +74,6 @@ public:
     void delete_bullet2();
 
     //shockwave
-    list<ShockWave> waves;
 
 
     GameEngine();

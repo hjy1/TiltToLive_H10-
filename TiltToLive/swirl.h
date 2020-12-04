@@ -13,7 +13,7 @@ class Swirl : public Object
 
     void set_item_position();
 public:
-    Swirl(QGraphicsScene* scene, const double &x, const double &y);
+    Swirl(const double &x, const double &y, QGraphicsScene* scene = nullptr);
     Swirl(const Swirl& gblt);
     ~Swirl();
     void reset_v();
@@ -23,8 +23,8 @@ public:
     void set_Zvalue(const int &z);
     void change_sig();
     void hold();
-    bool squeezing();
-    bool holding();
+    bool squeezing()const;
+    bool holding()const;
 
 };
 

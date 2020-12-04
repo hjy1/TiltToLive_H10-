@@ -97,6 +97,7 @@ void Tool::add_scene(QGraphicsScene *scene){
     item->setVisible(true);
     scene->addItem(item);
     item->setRect(0, 0, TOOL_SIZE * 2, TOOL_SIZE * 2);
+    item->setTransformOriginPoint(TOOL_SIZE, TOOL_SIZE);
     item->setZValue(5000);
     set_item_position();
 }

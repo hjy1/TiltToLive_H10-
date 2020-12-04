@@ -32,6 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     /* Pause & Resume
      * ***************** */
+    //scorer = ui->menuBar->addAction("Surviving time: ");
     pau = ui->menuBar->addAction("Pause");
     res = ui->menuBar->addAction("Resume");
     connect(pau, SIGNAL(triggered()), this, SLOT(game_pause()));
@@ -61,6 +62,8 @@ MainWindow::~MainWindow()
 void MainWindow::refresh_game_map(){
     //static int count = 0;
     //qDebug() << "gamemap refreshed" <<QString::number(count++);
+    //QString score_display = "Surviving time: " + NUM((double)timer.elapsed() / 1000) + "s";
+    //scorer->setText(score_display);
     move_objects();
     if(game_is_end) game_end();
 }

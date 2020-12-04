@@ -19,6 +19,7 @@ ShockWave::~ShockWave(){
         if(scene != nullptr)    scene->removeItem(item);
     }
     delete item;
+    qDebug() << "ShockWave deleted";
 }
 
 void ShockWave::add_scene(QGraphicsScene *scene){

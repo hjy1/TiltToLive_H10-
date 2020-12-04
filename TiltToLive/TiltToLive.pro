@@ -40,7 +40,8 @@ SOURCES += \
     boom.cpp \
     annulusitem.cpp \
     shockwave.cpp \
-    swirl.cpp
+    swirl.cpp \
+    effect.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -57,7 +58,8 @@ HEADERS += \
     boom.h \
     annulusitem.h \
     shockwave.h \
-    swirl.h
+    swirl.h \
+    effect.h
 
 FORMS += \
         mainwindow.ui

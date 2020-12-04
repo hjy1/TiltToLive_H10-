@@ -3,7 +3,7 @@
 #include "swirl.h"
 #include "constants.h"
 
-Swirl::Swirl(QGraphicsScene* scene, const double &x, const double &y)
+Swirl::Swirl(const double &x, const double &y, QGraphicsScene* scene)
     : Object(x, y, INITIAL_Swirl_SIZE){
     if(scene != nullptr) add_scene(scene);
 }
@@ -64,11 +64,11 @@ void Swirl::change_sig() {
     --sig;
 }
 
-bool Swirl::squeezing() {
+bool Swirl::squeezing() const{
     return sig < 0;
 }
 
-bool Swirl::holding() {
+bool Swirl::holding() const{
     return times < Swirl_TIME;
 }
 

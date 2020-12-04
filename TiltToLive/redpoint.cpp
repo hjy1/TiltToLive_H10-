@@ -5,12 +5,12 @@
 #include <QDebug>
 #include <QGraphicsScene>
 
-Redpoint::Redpoint(const double &x, const double &y,QGraphicsScene* scene, const Object* const &target):
+Redpoint::Redpoint(const double &x, const double &y,QGraphicsScene* scene, const Vector* target):
     Object(x,y,INITIAL_REDPOINT_SIZE), target(target), item(nullptr), num(1)	{
     if(scene != nullptr)    add_scene(scene);
 }
 
-Redpoint::Redpoint(QGraphicsScene *scene, const Object* const &target):
+Redpoint::Redpoint(QGraphicsScene *scene, const Vector* target):
     Object(INITIAL_REDPOINT_SIZE), target(target), item(nullptr), num(1)  {
     if(scene != nullptr)    add_scene(scene);
 }
@@ -54,13 +54,19 @@ void Redpoint::reset_v()
     }
 	if(target != nullptr)
     {
-        Vector deltap = n_target - this->getp();
-        qDebug() << "reset_v: " << n_target.getx() << " " << n_target.gety();
+        Vector deltap = *target - this->getp();
+        //qDebug() << "reset_v: " << n_target.getx() << " " << n_target.gety();
         if(deltap.is_zero())    v.reset_xy(0,0);
         else {
-            double vlen = get_suitable_v(v.getlen(), deltap.getlen() - getr() - target->getr() - SAFE_TIME / 1000 * REDPOINT_SPEED_MIN);
-            //qDebug() << NUM(vlen);
-            v = deltap.set_lenth(vlen);
+            if(!reversed){
+                double vlen = get_suitable_v(v.getlen(), deltap.getlen() - getr() - SAFE_TIME / 1000 * REDPOINT_SPEED_MIN);
+                //qDebug() << NUM(vlen);
+                v = deltap.set_lenth(vlen);
+            }
+            else{
+                v = deltap.set_lenth((REDPOINT_SPEED_MIN + REDPOINT_SPEED_MAX) / 2);
+                v = Vector(0,0) - v;
+            }
         }
 	}
     else {
@@ -69,7 +75,7 @@ void Redpoint::reset_v()
 }
 
 bool Redpoint::target_reached() const{
-    return check_overlap(*this, *target);
+    return check_overlap(*this, Object(target->getx(), target->gety(), getr()));
 }
 
 void Redpoint::merge(const Redpoint &p){
@@ -98,9 +104,21 @@ void Redpoint::set_item_position(){
 }
 
 void Redpoint::move_one_tick(){
-    qDebug() << "mv_o_tick: " << n_target.getx() << " " << n_target.gety();
+    //qDebug() << "mv_o_tick: " << n_target.getx() << " " << n_target.gety();
     reset_v();
     Object::move_one_tick();
+    if(getp().getx() < getr()){
+        getc().getp().getx() = getr();
+    }
+    else if(getp().getx() > MAP_SIZE_L - getr()){
+        getc().getp().getx() = MAP_SIZE_L - getr();
+    }
+    if(getp().gety() < getr()){
+        getc().getp().gety() = getr();
+    }
+    else if(getp().gety() > MAP_SIZE_W - getr()){
+        getc().getp().gety() = MAP_SIZE_W - getr();
+    }
     set_item_position();
 }
 
@@ -112,6 +130,10 @@ void Redpoint::set_color(const int &red, const int &green, const int &blue){
 void Redpoint::set_Zvalue(const int &z){
     if(item == nullptr || item->scene() == nullptr) return ;
     item->setZValue(z);
+}
+
+void Redpoint::set_target(const Vector *tar){
+    target = tar;
 }
 
 void Redpoint::set_freeze() {

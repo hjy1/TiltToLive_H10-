@@ -29,7 +29,7 @@ public:
 
 
     virtual void move_one_tick();
-    virtual void add_scene(QGraphicsScene *scene) = 0;
+    virtual void add_scene(QGraphicsScene *scene);
 
 
 	friend double get_distance(const Object &o1, const Object &o2);

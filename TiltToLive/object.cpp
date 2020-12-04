@@ -21,6 +21,7 @@ const Vector& Object::getp() const	{return c.getp();}
 const double& Object::getr() const	{return c.getr();}
 
 void Object::reset_v()	{}
+void Object::add_scene(QGraphicsScene *scene)   {}
 
 void Object::move_one_tick(){
 	reset_v();

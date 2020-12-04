@@ -7,6 +7,7 @@
 #include <queue>
 
 #include "object.h"
+#include "effect.h"
 
 using std::vector;
 
@@ -16,18 +17,12 @@ void GameEngine::init(){
     game_is_end = false;
     arrow = Arrow(MAP_SIZE_L/2, MAP_SIZE_W/2);
     arrow.add_scene(&scene);
-    waves.push_back(ShockWave(15,15, &scene));
-    waves.push_back(ShockWave(15,MAP_SIZE_W - 15, &scene));
-    waves.push_back(ShockWave(MAP_SIZE_L - 15,15, &scene));
-    waves.push_back(ShockWave(MAP_SIZE_L - 15, MAP_SIZE_W - 15, &scene));
 }
 
 /*overall workflow
 --------------------------------------------------------------------------------*/
 void GameEngine::move_objects()
 {
-    effects_turn();
-    arrow_turn();
     merge_redpoints();
     create_redpoints();
     tools_turn();
@@ -41,7 +36,7 @@ GameEngine::GameEngine(): arrow(MAP_SIZE_L/2, MAP_SIZE_W/2){}
 GameEngine::~GameEngine(){
     redpoints.clear();
     tools.clear();
-    waves.clear();
+    effects.clear();
 }
 
 /* Redpoints related: merge redpoints
@@ -112,10 +107,10 @@ void GameEngine::create_redpoints()
     static const double db = (256.0 - REDPOINT_COLOR.blue()) / num_tick;
 
     if(Creation_stage == 0){
-        waitlist.push_back(pRi(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
-        waitlist.push_back(pRi(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
-        waitlist.push_back(pRi(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
-        waitlist.push_back(pRi(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow), 1));
+        waitlist.push_back(pRi(Redpoint(INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow.getp()), 1));
+        waitlist.push_back(pRi(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow.getp()), 1));
+        waitlist.push_back(pRi(Redpoint(MAP_SIZE_L - INITIAL_REDPOINT_SIZE, INITIAL_REDPOINT_SIZE, &scene, &arrow.getp()), 1));
+        waitlist.push_back(pRi(Redpoint(INITIAL_REDPOINT_SIZE, MAP_SIZE_W - INITIAL_REDPOINT_SIZE, &scene, &arrow.getp()), 1));
         Creation_stage = 1;
     }
 
@@ -123,7 +118,7 @@ void GameEngine::create_redpoints()
         bool flag = (qrand() * 1.0 / RAND_MAX < REDPOINT_CREATION_CHANCE);
         if(flag)
         {
-            Redpoint tmp(&scene, &arrow);
+            Redpoint tmp(&scene, &arrow.getp());
             tmp.set_Zvalue(0);
             waitlist.push_back(pRi(tmp, 1));
         }
@@ -151,12 +146,12 @@ void GameEngine::reset_positions()
 {
     arrow.move_one_tick();
     if(!swirl_ongoing) n_target = arrow.getp();
-    qDebug() << n_target.getx() << " " << n_target.gety();
+    //qDebug() << n_target.getx() << " " << n_target.gety();
     for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end();){
-        qDebug() << "begin: " << n_target.getx() << " " << n_target.gety();
+        //qDebug() << "begin: " << n_target.getx() << " " << n_target.gety();
         (*it).move_one_tick();
-        qDebug() << "end: " << n_target.getx() << " " << n_target.gety();
-        if((*it).target_reached()) {
+        //qDebug() << "end: " << n_target.getx() << " " << n_target.gety();
+        if(check_touched(arrow, (*it))) {
             if(invince) {
                 it = redpoints.erase(it);
                 continue;
@@ -174,7 +169,8 @@ void GameEngine::reset_positions()
             int op = static_cast<int>((*it).operation());
             //debug
 
-            swirl = true;
+            effects.push_back(new ShockWave_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
+            //swirl = true;
             /*
              * explosion
             explosion = true;
@@ -196,7 +192,8 @@ void GameEngine::reset_positions()
         it++;
     }
 
-
+    //start now:
+/*
     for(list<Gunbullet>::iterator it = gunbullets.begin(); it != gunbullets.end(); ) {
         (*it).move_one_tick();
         if((*it).touch_wall()) {
@@ -230,10 +227,11 @@ void GameEngine::reset_positions()
         }
         ++it;
     }
-
-    for(list<ShockWave>::iterator it = waves.begin(); it != waves.end(); it ++){
-        (*it).move_one_tick();
-        if((*it).to_be_destroyed)   waves.erase(it);
+    //end here, package
+*/
+    for(list<Effect*>::iterator it = effects.begin(); it != effects.end(); it ++){
+        (*it)->operation();
+        if((*it)->to_be_destroyed())   {delete (*it); effects.erase(it);}
     }
 
 }
@@ -271,6 +269,7 @@ void GameEngine::delete_tools()//to delete the tools that exceed its life span
     }
 }
 
+//start here:
 void GameEngine::create_bullets()
 {
     using namespace std;
@@ -331,7 +330,7 @@ void GameEngine::set_freeze() {
 void GameEngine::create_Swirl() {
     using namespace std;
     if(!swirl) return ;
-    Swirl tmp(&scene, arrow.getp().getx(), arrow.getp().gety());
+    Swirl tmp(arrow.getp().getx(), arrow.getp().gety(), &scene);
     n_target = arrow.getp();
     Swirls.push_back(tmp);
     swirl_ongoing = true;
@@ -370,23 +369,9 @@ void GameEngine::delete_bullet2() {
         ++i;
     }
 }
+//end here, package in tool
 
 void GameEngine::tools_turn()			{
     delete_tools();
     create_tools();
 }
-
-
-
-/*uncompleted functions
---------------------------------------------------------------------------------*/
-void GameEngine::effects_turn()			{
-    create_bullets();
-    delete_bullets();
-    set_invince();
-    set_freeze();
-    create_Swirl();
-    create_bullet2();
-    delete_bullet2();
-}
-void GameEngine::arrow_turn()			{}
