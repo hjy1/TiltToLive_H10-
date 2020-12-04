@@ -33,48 +33,14 @@ public:
     list<Tool> tools;
     typedef std::pair<Redpoint, int> pRi;
     list<pRi> waitlist;
+    list<Effect*> effects;
     bool game_is_end;
+    bool invince;
+    bool freeze;
 
     void init();
     void create_tools();
     void delete_tools();
-
-    //Effects:
-    list<Effect*> effects;
-
-    //HE Jiayou
-    //Gunbullets
-    list<Gunbullet> gunbullets;
-    int remain_bullet = 0;
-    void create_bullets();
-    void delete_bullets();
-
-    //invince
-    bool invince = false;
-    int inv_time = INVINCE_MAX_TIME;
-    void set_invince();
-
-    //freeze
-    bool freeze = false;
-    int frz_time = FREEZE_MAX_TIME;
-    void set_freeze();
-
-    //Swirl
-    bool swirl = false;
-    bool swirl_ongoing = false;
-    double bm_time = Swirl_TIME;
-    list<Swirl> Swirls;
-    void create_Swirl();
-
-    //explosion
-    bool explosion = false;
-    list<Gunbullet> gunbullets2;
-    int remain_bullet2 = 0;
-    void create_bullet2();
-    void delete_bullet2();
-
-    //shockwave
-
 
     GameEngine();
 	~GameEngine();

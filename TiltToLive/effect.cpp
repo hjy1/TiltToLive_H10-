@@ -196,7 +196,7 @@ void ShockWave_Effect::operation(){
     for(list<Redpoint>::iterator it = parent->redpoints.begin(); it != parent->redpoints.end();it ++){
         Redpoint &pt = *it;
         double len = (pt.getp() - item.getp()).getlen();
-        if(len < item.getr() && len > item.getr() - WAVESPEED * ONE_TIK_TIME / 1000)
+        if(len < item.getr() && len > item.getr() - 2 * WAVESPEED * ONE_TIK_TIME / 1000)
             parent->redpoints.erase(it);
     }
 }

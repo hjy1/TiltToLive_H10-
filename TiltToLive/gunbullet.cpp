@@ -47,17 +47,12 @@ void Gunbullet::set_item_position(){
 }
 
 void Gunbullet::move_one_tick(){
-    qDebug() << "successfully in";
     Object::move_one_tick();
-    qDebug() << "successfully moved";
     qDebug() << MAP_SIZE_L << " " << MAP_SIZE_W;
     qDebug() << getp().getx() << " " << getp().gety();
     if(!touch_wall()) {
-        qDebug() << "why?";
         set_item_position();
     }
-
-    qDebug() << "successfully set pos";
 }
 
 void Gunbullet::set_color(const int &red, const int &green, const int &blue){

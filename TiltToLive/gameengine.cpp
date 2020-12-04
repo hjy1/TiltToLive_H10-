@@ -145,7 +145,6 @@ void GameEngine::create_redpoints()
 void GameEngine::reset_positions()
 {
     arrow.move_one_tick();
-    if(!swirl_ongoing) n_target = arrow.getp();
     //qDebug() << n_target.getx() << " " << n_target.gety();
     for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end();){
         //qDebug() << "begin: " << n_target.getx() << " " << n_target.gety();
@@ -166,9 +165,6 @@ void GameEngine::reset_positions()
         (*it).move_one_tick();
         if((*it).arrow_reached()){ //check whether a tool hits the arrow
             //delete the tools that have finished its effect
-            //debug
-
-            effects.push_back(new Boom_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
             switch ((*it).operation()) {
                 case Tool::ToolType::INVINCE :
                     effects.push_back(new Invince_Effect(this));
@@ -177,12 +173,20 @@ void GameEngine::reset_positions()
                     effects.push_back(new Freeze_Effect(this));
                     break;
                 case Tool::ToolType::SHOOT :
-                    effects.push_back()
-                case Tool::ToolType
-                case Tool::ToolType
-                case Tool::ToolType
-
-
+                    effects.push_back(new Shoot_Effect(this));
+                break;
+                case Tool::ToolType::BOOM :
+                    effects.push_back(new Boom_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
+                break;
+                case Tool::ToolType::SWIRL :
+                    effects.push_back(new Swirl_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
+                break;
+                case Tool::ToolType::EXPLOSION :
+                    effects.push_back(new Explosion_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
+                break;
+                case Tool::ToolType::SHOCKWAVE :
+                    effects.push_back(new ShockWave_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
+                break;
             }
             it = tools.erase(it);
             qDebug() << "delete a tool that has finished its effect";
@@ -191,43 +195,6 @@ void GameEngine::reset_positions()
         it++;
     }
 
-    //start now:
-/*
-    for(list<Gunbullet>::iterator it = gunbullets.begin(); it != gunbullets.end(); ) {
-        (*it).move_one_tick();
-        if((*it).touch_wall()) {
-            it = gunbullets.erase(it);
-            qDebug() << "delete a bullet when it touched the wall";
-            continue;
-        }
-        it++;
-    }
-
-    for(list<Gunbullet>::iterator it = gunbullets2.begin(); it != gunbullets2.end(); ) {
-        (*it).move_one_tick();
-        if((*it).touch_wall()) {
-            it = gunbullets2.erase(it);
-            qDebug() << "delete a bullet when it touched the wall";
-            continue;
-        }
-        it++;
-    }
-
-    for(auto it = Swirls.begin(); it != Swirls.end(); ) {
-        (*it).move_one_tick();
-        if((*it).getr() >= Swirl_MAX_SIZE && !(*it).holding() && !(*it).squeezing()) {
-            (*it).change_sig();
-            (*it).hold();
-        }
-        else if((*it).getr() <= INITIAL_Swirl_SIZE && (*it).squeezing()) {
-            it = Swirls.erase(it);
-            qDebug() << "delete a Swirl when it minimized";
-            continue;
-        }
-        ++it;
-    }
-    //end here, package
-*/
     for(list<Effect*>::iterator it = effects.begin(); it != effects.end(); it ++){
         (*it)->operation();
         if((*it)->to_be_destroyed())   {delete (*it); effects.erase(it);}
@@ -267,108 +234,6 @@ void GameEngine::delete_tools()//to delete the tools that exceed its life span
        it++;
     }
 }
-
-//start here:
-void GameEngine::create_bullets()
-{
-    using namespace std;
-
-    if(remain_bullet <= 0) return;
-    //debug
-    --remain_bullet;
-    qDebug() << "remain" << remain_bullet;
-    Gunbullet tmp(&scene, arrow.getp().getx(), arrow.getp().gety(), arrow.get_prev());
-    gunbullets.push_back(tmp);
-    qDebug() << "create a new one";
-}
-
-void GameEngine::delete_bullets() {
-    using namespace std;
-
-    for(auto i = gunbullets.begin(); i != gunbullets.end(); ) {
-        bool flag = false;
-        for(auto j = redpoints.begin(); j != redpoints.end(); ) {
-            if(check_touched((*i), (*j))) {
-                flag = true;
-                j = redpoints.erase(j);
-                continue;
-            }
-            ++j;
-        }
-        if(flag) {
-            i = gunbullets.erase(i);
-            continue;
-        }
-        ++i;
-    }
-}
-
-void GameEngine::set_invince() {
-    using namespace std;
-    inv_time += ONE_TIK_TIME;
-    if( inv_time > INVINCE_MAX_TIME) {
-        invince = false;
-        arrow.set_color(0, 160, 230);
-    }
-}
-
-void GameEngine::set_freeze() {
-    using namespace std;
-    frz_time += ONE_TIK_TIME;
-    if( frz_time > FREEZE_MAX_TIME)
-        for (auto it = redpoints.begin(); it != redpoints.end(); ++it) {
-            (*it).un_freeze();
-        }
-    else {
-        for (auto it = redpoints.begin(); it != redpoints.end(); ++it) {
-            (*it).set_freeze();
-        }
-    }
-}
-
-void GameEngine::create_Swirl() {
-    using namespace std;
-    if(!swirl) return ;
-    Swirl tmp(arrow.getp().getx(), arrow.getp().gety(), &scene);
-    n_target = arrow.getp();
-    Swirls.push_back(tmp);
-    swirl_ongoing = true;
-    swirl = false;
-}
-
-void GameEngine::create_bullet2() {
-    using namespace std;
-    if(!explosion) return;
-    static const double dx[12] = {0, 0.5, 0.86602, 1, 0.86602, 0.5, 0,
-                                  -0.5, -0.86602, -1, -0.86602, -0.5};
-    static const double dy[12] = {-1, -0.86602, -0.5, 0, 0.5, 0.86602, 1,
-                                  0.86602, 0.5, 0, -0.5, -0.86602};
-    for(int i = 0; i < 12; ++i) {
-        Gunbullet tmp(&scene, arrow.getp().getx(), arrow.getp().gety(), Vector(dx[i], dy[i]));
-        gunbullets2.push_back(tmp);
-    }
-    explosion = false;
-}
-
-void GameEngine::delete_bullet2() {
-    for(auto i = gunbullets2.begin(); i != gunbullets2.end(); ) {
-        bool flag = false;
-        for(auto j = redpoints.begin(); j != redpoints.end(); ) {
-            if(check_touched((*i), (*j))) {
-                flag = true;
-                j = redpoints.erase(j);
-                continue;
-            }
-            ++j;
-        }
-        if(flag) {
-            i = gunbullets2.erase(i);
-            continue;
-        }
-        ++i;
-    }
-}
-//end here, package in tool
 
 void GameEngine::tools_turn()			{
     delete_tools();
