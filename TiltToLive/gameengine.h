@@ -37,6 +37,7 @@ public:
     bool game_is_end;
     bool invince;
     bool freeze;
+    Vector* redpoint_target;
 
     void init();
     void create_tools();

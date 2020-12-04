@@ -125,13 +125,11 @@ void Explosion_Effect::operation() {
         (*it).move_one_tick();
         if((*it).touch_wall()) {
             it = gunbullets.erase(it);
-            qDebug() << "delete a bullet when it touched the wall";
             continue;
         }
         bool flag = false;
         for (auto j = parent->redpoints.begin(); j != parent->redpoints.end(); ) {
             if(check_touched((*it), (*j))) {
-                qDebug() << "delete a redpoint when a bullet hits it";
                 j = parent->redpoints.erase(j);
                 flag = true;
                 continue;
@@ -140,7 +138,6 @@ void Explosion_Effect::operation() {
         }
         if(flag) {
             it = gunbullets.erase(it);
-            qDebug() << "delete a bullet when it hits a redpoint";
             continue;
         }
         it++;
@@ -161,6 +158,7 @@ Swirl_Effect::Swirl_Effect(const double &x, const double &y, GameEngine* parent)
         (*it).set_target(&swirl.getp());
     }
     excisting_effects ++;
+    parent->redpoint_target = &swirl.getc().getp();
 }
 Swirl_Effect::~Swirl_Effect()   {
     if(parent != nullptr){
@@ -169,6 +167,7 @@ Swirl_Effect::~Swirl_Effect()   {
             for(auto it = parent->redpoints.begin(); it != parent->redpoints.end(); ++it) {
                 (*it).set_target(&parent->arrow.getp());
             }
+        parent->redpoint_target = &parent->arrow.getc().getp();
     }
 }
 void Swirl_Effect::operation() {
