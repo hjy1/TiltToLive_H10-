@@ -2,6 +2,7 @@
 #define CONSTANTS_H
 
 #include <QColor>
+#include "vector.h"
 
 //constants
 extern double MAP_SIZE_L;
@@ -22,10 +23,11 @@ extern const double INITIAL_BULLET_SIZE;
 extern const double INITIAL_BULLET_SPEED;
 extern const double INITIAL_BULLET_AMOUNT;
 
-extern const double INITIAL_BOOM_SIZE;
-extern const double BOOM_MAX_SIZE;
-extern const double BOOM_R_CHANGE_SPEED;
-extern const double BOOM_TIME;
+extern const double INITIAL_Swirl_SIZE;
+extern const double Swirl_MAX_SIZE;
+extern const double Swirl_R_CHANGE_SPEED;
+extern const double Swirl_TIME;
+extern Vector n_target;
 
 extern const int INVINCE_MAX_TIME;
 
@@ -39,7 +41,7 @@ extern const double ARROW_SPEED;
 extern const QColor REDPOINT_COLOR;
 extern const QColor ARROW_COLOR;
 extern const QColor GUNBULLET_COLOR;
-extern const QColor BOOM_COLOR;
+extern const QColor Swirl_COLOR;
 extern const QColor WAVE_COLOR;
 
 extern const double EPSILON;
@@ -53,6 +55,8 @@ extern const double TOOL_EMPTY_TIME;
 
 extern const double WAVELENTH;
 extern const double WAVESPEED;
+
+
 
 //code
 #define NUM(x)  QString::number(x)

@@ -54,7 +54,8 @@ void Redpoint::reset_v()
     }
 	if(target != nullptr)
     {
-        Vector deltap = target->getp() - this->getp();
+        Vector deltap = n_target - this->getp();
+        qDebug() << "reset_v: " << n_target.getx() << " " << n_target.gety();
         if(deltap.is_zero())    v.reset_xy(0,0);
         else {
             double vlen = get_suitable_v(v.getlen(), deltap.getlen() - getr() - target->getr() - SAFE_TIME / 1000 * REDPOINT_SPEED_MIN);
@@ -97,6 +98,8 @@ void Redpoint::set_item_position(){
 }
 
 void Redpoint::move_one_tick(){
+    qDebug() << "mv_o_tick: " << n_target.getx() << " " << n_target.gety();
+    reset_v();
     Object::move_one_tick();
     set_item_position();
 }

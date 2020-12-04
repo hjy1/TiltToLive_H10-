@@ -1,21 +1,21 @@
-#ifndef BOOM_H
-#define BOOM_H
+#ifndef SWIRL_H
+#define SWIRL_H
 
 #include "object.h"
 #include "constants.h"
 
-class Boom : public Object
+class Swirl : public Object
 {
     QGraphicsEllipseItem* item;
     const int num = 2;
     int sig = 1;
-    //double times = BOOM_TIME;
+    double times = Swirl_TIME;
 
     void set_item_position();
 public:
-    Boom(QGraphicsScene* scene, const double &x, const double &y);
-    Boom(const Boom& gblt);
-    ~Boom();
+    Swirl(QGraphicsScene* scene, const double &x, const double &y);
+    Swirl(const Swirl& gblt);
+    ~Swirl();
     void reset_v();
     void add_scene(QGraphicsScene* scene);
     void move_one_tick();
@@ -28,4 +28,4 @@ public:
 
 };
 
-#endif // BOOM_H
+#endif // SWIRL_H

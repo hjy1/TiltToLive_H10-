@@ -39,7 +39,8 @@ SOURCES += \
     gunbullet.cpp \
     boom.cpp \
     annulusitem.cpp \
-    shockwave.cpp
+    shockwave.cpp \
+    swirl.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -55,7 +56,8 @@ HEADERS += \
     gunbullet.h \
     boom.h \
     annulusitem.h \
-    shockwave.h
+    shockwave.h \
+    swirl.h
 
 FORMS += \
         mainwindow.ui

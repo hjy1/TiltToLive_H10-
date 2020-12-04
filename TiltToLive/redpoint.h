@@ -6,7 +6,7 @@
 
 class Redpoint: public Object{
 private:
-	const Object* const target;
+    const Object* const target;
     QGraphicsEllipseItem* item;
     int num;
     bool freeze = false;

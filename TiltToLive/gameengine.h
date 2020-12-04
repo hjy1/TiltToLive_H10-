@@ -9,7 +9,7 @@
 #include <QGraphicsScene>
 #include "constants.h"
 #include "gunbullet.h"
-#include "boom.h"
+#include "swirl.h"
 #include "shockwave.h"
 
 using std::list;
@@ -54,12 +54,12 @@ public:
     int frz_time = FREEZE_MAX_TIME;
     void set_freeze();
 
-    //boom
-    bool boom = false;
-    double bm_time = BOOM_TIME;
-    list<Boom> booms;
-    void create_boom();
-    void delete_boom();
+    //Swirl
+    bool swirl = false;
+    bool swirl_ongoing = false;
+    double bm_time = Swirl_TIME;
+    list<Swirl> Swirls;
+    void create_Swirl();
 
     //explosion
     bool explosion = false;

@@ -150,8 +150,12 @@ void GameEngine::create_redpoints()
 void GameEngine::reset_positions()
 {
     arrow.move_one_tick();
+    if(!swirl_ongoing) n_target = arrow.getp();
+    qDebug() << n_target.getx() << " " << n_target.gety();
     for(list<Redpoint>::iterator it = redpoints.begin(); it != redpoints.end();){
+        qDebug() << "begin: " << n_target.getx() << " " << n_target.gety();
         (*it).move_one_tick();
+        qDebug() << "end: " << n_target.getx() << " " << n_target.gety();
         if((*it).target_reached()) {
             if(invince) {
                 it = redpoints.erase(it);
@@ -169,12 +173,13 @@ void GameEngine::reset_positions()
             //delete the tools that have finished its effect
             int op = static_cast<int>((*it).operation());
             //debug
-            remain_bullet += INITIAL_BULLET_AMOUNT;
+
+            swirl = true;
             /*
              * explosion
             explosion = true;
-             * boom:
-            boom = true;
+             * Swirl:
+            swirl = true;
              * freeze:
             frz_time = 0;
              * invince:
@@ -212,15 +217,15 @@ void GameEngine::reset_positions()
         it++;
     }
 
-    for(auto it = booms.begin(); it != booms.end(); ) {
+    for(auto it = Swirls.begin(); it != Swirls.end(); ) {
         (*it).move_one_tick();
-        if((*it).getr() >= BOOM_MAX_SIZE && !(*it).holding() && !(*it).squeezing()) {
+        if((*it).getr() >= Swirl_MAX_SIZE && !(*it).holding() && !(*it).squeezing()) {
             (*it).change_sig();
             (*it).hold();
         }
-        else if((*it).getr() <= INITIAL_BOOM_SIZE && (*it).squeezing()) {
-            it = booms.erase(it);
-            qDebug() << "delete a boom when it minimized";
+        else if((*it).getr() <= INITIAL_Swirl_SIZE && (*it).squeezing()) {
+            it = Swirls.erase(it);
+            qDebug() << "delete a Swirl when it minimized";
             continue;
         }
         ++it;
@@ -323,25 +328,14 @@ void GameEngine::set_freeze() {
     }
 }
 
-void GameEngine::create_boom() {
+void GameEngine::create_Swirl() {
     using namespace std;
-    if(!boom) return ;
-    Boom tmp(&scene, arrow.getp().getx(), arrow.getp().gety());
-    booms.push_back(tmp);
-    boom = false;
-}
-
-void GameEngine::delete_boom() {
-    using namespace std;
-    for(auto i = booms.begin(); i != booms.end(); ++i) {
-        for(auto j = redpoints.begin(); j != redpoints.end(); ) {
-            if(check_touched((*i), (*j))) {
-                j = redpoints.erase(j);
-                continue;
-            }
-            ++j;
-        }
-    }
+    if(!swirl) return ;
+    Swirl tmp(&scene, arrow.getp().getx(), arrow.getp().gety());
+    n_target = arrow.getp();
+    Swirls.push_back(tmp);
+    swirl_ongoing = true;
+    swirl = false;
 }
 
 void GameEngine::create_bullet2() {
@@ -391,8 +385,7 @@ void GameEngine::effects_turn()			{
     delete_bullets();
     set_invince();
     set_freeze();
-    create_boom();
-    delete_boom();
+    create_Swirl();
     create_bullet2();
     delete_bullet2();
 }

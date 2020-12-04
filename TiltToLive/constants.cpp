@@ -23,10 +23,11 @@ const double INITIAL_BULLET_SIZE = rate *   3;
 const double INITIAL_BULLET_SPEED = rate *  300;
 const double INITIAL_BULLET_AMOUNT =        100;
 
-const double INITIAL_BOOM_SIZE = rate *     2;
-const double BOOM_MAX_SIZE = rate *         52;
-const double BOOM_R_CHANGE_SPEED = rate *   10;
-const double BOOM_TIME =                    0;
+const double INITIAL_Swirl_SIZE = rate *     2;
+const double Swirl_MAX_SIZE = rate *         52;
+const double Swirl_R_CHANGE_SPEED = rate *   10;
+const double Swirl_TIME =                    3000;
+Vector n_target;//
 
 const int INVINCE_MAX_TIME =                3000;
 
@@ -43,7 +44,7 @@ const double ARROW_SPEED = rate *           100;
 const QColor REDPOINT_COLOR                 (200, 100, 100);
 const QColor ARROW_COLOR                    (0, 160, 230);
 const QColor GUNBULLET_COLOR                (0, 255, 0);
-const QColor BOOM_COLOR                     (255, 255, 0);
+const QColor Swirl_COLOR                     (255, 255, 0);
 const QColor WAVE_COLOR                     (20,20,200);
 
 const double EPSILON = 0.0000001;
@@ -60,7 +61,7 @@ const int Tool::TYPENUM = 7;
 const QString Tool::tool_image_lookup[] = { ":/resources/tools/invince.png",
                                        ":/resources/tools/freeze.png",
                                        ":/resources/tools/shoot.png",
-                                       ":/resources/tools/boom.png",
+                                       ":/resources/tools/Swirl.png",
                                        ":/resources/tools/explosion.png",
                                        ":/resources/tools/swirl.png",
                                        ":/resources/tools/shockwave.png",
