@@ -7,13 +7,13 @@
 class Boom : public Object
 {
     QGraphicsEllipseItem* item;
-    const int num = 2;
+    const int num = 1000;
     int sig = 1;
     //double times = BOOM_TIME;
 
     void set_item_position();
 public:
-    Boom(QGraphicsScene* scene, const double &x, const double &y);
+    Boom(const double &x, const double &y, QGraphicsScene* scene);
     Boom(const Boom& gblt);
     ~Boom();
     void reset_v();
@@ -25,6 +25,10 @@ public:
     void hold();
     bool squeezing();
     bool holding();
+    void set_visible();
+    void set_invisible();
+
+    bool to_be_destroyed;
 
 };
 

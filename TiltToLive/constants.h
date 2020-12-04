@@ -27,6 +27,11 @@ extern const double INITIAL_Swirl_SIZE;
 extern const double Swirl_MAX_SIZE;
 extern const double Swirl_R_CHANGE_SPEED;
 extern const double Swirl_TIME;
+
+extern const double INITIAL_BOOM_SIZE;
+extern const double BOOM_MAX_SIZE;
+extern const double BOOM_SPECIAL_EFFECT;
+
 extern Vector n_target;
 
 extern const int INVINCE_MAX_TIME;
@@ -35,6 +40,7 @@ extern const int FREEZE_MAX_TIME;
 
 extern const int BOOM_NUMBER;
 extern const double BOOM_TIME;
+extern const double BOOM_EXPAND_SPEED;
 
 extern const double SAFE_TIME;
 
@@ -47,6 +53,7 @@ extern const QColor ARROW_INVINCE_COLOR;
 extern const QColor GUNBULLET_COLOR;
 extern const QColor Swirl_COLOR;
 extern const QColor WAVE_COLOR;
+extern const QColor BOOM_COLOR;
 
 extern const double EPSILON;
 

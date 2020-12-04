@@ -162,8 +162,9 @@ public:
     void operation() override;
     bool to_be_destroyed() const override;
 private:
-    list<Boom> items;
-    const Vector center;
+    int index = 0;
+    Boom *item[8];
+    Circle c;
 };
 
 #endif // EFFECT_H

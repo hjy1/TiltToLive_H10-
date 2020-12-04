@@ -166,25 +166,24 @@ void GameEngine::reset_positions()
         (*it).move_one_tick();
         if((*it).arrow_reached()){ //check whether a tool hits the arrow
             //delete the tools that have finished its effect
-            int op = static_cast<int>((*it).operation());
             //debug
 
-            effects.push_back(new ShockWave_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
-            //swirl = true;
-            /*
-             * explosion
-            explosion = true;
-             * Swirl:
-            swirl = true;
-             * freeze:
-            frz_time = 0;
-             * invince:
-            invince = true;
-            inv_time = 0;
-            arrow.set_color(0, 255, 255);
-             * shoot:
-            remain_bullet += INITIAL_BULLET_AMOUNT;
-            */
+            effects.push_back(new Boom_Effect(arrow.getp().getx(), arrow.getp().gety(), this));
+            switch ((*it).operation()) {
+                case Tool::ToolType::INVINCE :
+                    effects.push_back(new Invince_Effect(this));
+                    break;
+                case Tool::ToolType::FREEZE :
+                    effects.push_back(new Freeze_Effect(this));
+                    break;
+                case Tool::ToolType::SHOOT :
+                    effects.push_back()
+                case Tool::ToolType
+                case Tool::ToolType
+                case Tool::ToolType
+
+
+            }
             it = tools.erase(it);
             qDebug() << "delete a tool that has finished its effect";
             continue;

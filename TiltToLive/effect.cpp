@@ -203,9 +203,42 @@ void ShockWave_Effect::operation(){
 bool ShockWave_Effect::to_be_destroyed() const{    return item.to_be_destroyed; }
 
 /* Other Effects
- * **************************
+ * *********************** */
 Boom_Effect::Boom_Effect(const double &x, const double &y, GameEngine* parent):
-    Effect (parent), center(x,y)    {}
-Boom_Effect::Boom_Effect(const Vector &c, GameEngine* parent):
-    Effect (parent), center(c)  {}
-Boom_Effect::~Boom_Effect() {items.clear();}*/
+    Effect (parent), c(x, y, BOOM_MAX_SIZE){
+    if(parent == nullptr)   return ;
+    static const double dx[8] = {0, BOOM_SPECIAL_EFFECT, 0, -BOOM_SPECIAL_EFFECT, BOOM_SPECIAL_EFFECT/2, BOOM_SPECIAL_EFFECT/2, -BOOM_SPECIAL_EFFECT/2, -BOOM_SPECIAL_EFFECT/2};
+    static const double dy[8] = {-BOOM_SPECIAL_EFFECT, 0, BOOM_SPECIAL_EFFECT, 0, -BOOM_SPECIAL_EFFECT, BOOM_SPECIAL_EFFECT / 2, BOOM_SPECIAL_EFFECT, -BOOM_SPECIAL_EFFECT/2};
+    for(int i = 0; i < 8; ++i) {
+        item[i] = new Boom(x + dx[i], y + dy[i], &parent->scene);
+        item[i]->set_invisible();
+    }
+    index = 0;
+}
+Boom_Effect::~Boom_Effect()   {
+    for(int i = 0; i < 8; ++i)
+        delete item[i];
+}
+void Boom_Effect::operation() {
+    if(index < 8)   {item[index++]->set_visible();}
+    for(int i = 0;i < index;i ++){
+        if(item[i]->getr() < BOOM_MAX_SIZE)
+            item[i]->move_one_tick();
+        else {
+            item[i]->set_invisible();
+            item[i]->to_be_destroyed = true;
+        }
+    }
+    for(list<Redpoint>::iterator it = parent->redpoints.begin(); it != parent->redpoints.end(); ) {
+        if(check_touched((*it).getc(), c)) {
+            it = parent->redpoints.erase(it);
+            continue;
+        }
+        it++;
+    }
+
+}
+bool Boom_Effect::to_be_destroyed() const {
+    return item[7]->to_be_destroyed;
+}
+
